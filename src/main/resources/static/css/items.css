@@ -1,0 +1,174 @@
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.categories {
+    margin: auto;
+    padding-top: 30px;
+    width: 60%;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+
+    column-gap: 20px;
+
+    row-gap: 20px;
+
+    caret-color: transparent;
+}
+
+.category {
+    display: flex;
+    flex-direction: column;
+
+    padding-block: 15px;
+
+    flex-basis: 31%;
+    font-size: 25px;
+    color: black;
+
+    align-items: center;
+
+
+    cursor: pointer;
+
+}
+
+.category img {
+    width: 100px;
+    height: 100px;
+    aspect-ratio: 1;
+    border: 2px solid black;
+    border-radius: 50px;
+
+    box-shadow: 0 1px 5px rgba(0,0,0,1);
+    
+}
+
+
+
+.category:hover img {
+    padding: 0px;
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    transition: padding 0.3s, width 0.3s, height 0.3s, border-radius 0.3s
+}
+
+.category:hover {
+    font-size: 30px;
+    color: purple;
+    box-shadow: 0px 0px 10px gray;
+    transition: color 0.3s, box-shadow 0.1s, font-size 0.3s;
+}
+
+.item_list {
+    display: flex;
+    flex-wrap: wrap;
+
+    row-gap: 10px;
+    column-gap: 5px;
+
+    caret-color: transparent;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    width: 24%;
+    color: black;
+
+    border: 2px solid gray;
+    border-radius: 15px;
+}
+
+.item img {
+    border: 1px solid gray;
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+
+.item h6, .item h5, .item p {
+    padding-inline: 5px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.divider {
+    background-color: rgb(144, 136, 136);
+    height: 1px;
+    margin-block: 3px;
+}
+
+.item:hover {
+    color: rgb(58, 110, 128);
+    transition: color 0.2s;
+}
+
+.item:hover img {
+    filter: brightness(1.25);
+    opacity: 0.75;
+    transition: filter 0.2s, opacity 0.2s;
+}
+
+.photo {
+    position: relative;
+    width: 350px;
+}
+
+.photo img{
+    border: 2px solid silver;
+    border-radius: 200px;
+    width: 350px;
+    height: 350px;
+    cursor: pointer;
+    caret-color: transparent;
+}
+
+.photo img:hover {
+    filter: brightness(0.5);
+    transition: filter 0.2s;
+}
+
+.photo span {
+    position: absolute;
+    top: 45%;
+    left: 24%;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    opacity: 0;
+    pointer-events: none;    
+}
+
+.photo:hover span { 
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.container-fluid input {
+    width: 350px;
+    border-radius: 10px;
+}
+
+#submit-button {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
+#submit-button:hover {
+    background-color: rgb(4, 202, 4);
+    transition: background-color 0.2s;
+}
+
+#submit-button:active {
+    background-color: rgb(184, 237, 184);
+    transition: 0s;
+    
+}

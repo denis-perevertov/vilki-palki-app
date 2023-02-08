@@ -1,0 +1,92 @@
+.banners {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    width: 24%;
+}
+
+.banner > * {
+    border-radius: 20px;
+}
+
+.image img {
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.image {
+    position: relative;
+}
+
+.image span { 
+    position: absolute;
+    top: 46%;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    left: 25%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.image:hover span {
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.banner img:hover {
+    filter: brightness(0.5);
+    transition: filter 0.2s;
+}
+
+button {
+    font-weight: bold;
+    padding-inline: 20px;
+}
+
+button:hover {
+    background-color: aliceblue;
+}
+
+button:active {
+    background-color: white;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+}
+
+#submit-button {
+    margin-top: 50px;
+    
+    width: 250px;
+    height: 100px;
+    font-size: 30px;
+    border-radius: 30px;
+
+    background-color: blue;
+    color: white;
+
+    box-shadow: 0px 0px 7px black;
+
+    align-self: center;
+}
+
+#submit-button:hover {
+    background-color: lightblue;
+}
+
+#submit-button:active {
+    background-color: white;
+}

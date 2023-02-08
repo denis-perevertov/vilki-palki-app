@@ -1,0 +1,136 @@
+.user-data {
+    
+    margin-top: 30px;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    flex-wrap: wrap;
+    width: 60%;
+    justify-content: center;
+}
+
+.item-data {
+    padding-left: 100px;
+    padding-right: 50px;
+    padding-bottom: 100px;
+}
+
+.user-data-row {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   column-gap: 20px;
+}
+
+.user-data-col {
+    display: flex;
+    column-gap: 10px;
+    flex-grow: 1;
+}
+
+input {
+    flex-grow: 1;
+}
+
+.item-picture {
+    margin-right: 100px;
+    margin-bottom: 50px;
+    position: relative;
+    caret-color: transparent;
+}
+
+.item-picture img {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    border: 5px solid silver;
+    cursor: pointer;
+}
+
+.item-picture img:hover {
+    filter: brightness(0.5);
+    transition: filter 0.2s;
+}
+
+.item-picture span {
+    position: absolute;
+    top: 42%;
+    left: 30%;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.item-picture:hover span {
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.item-data-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.item-description {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
+
+.item-description-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.item-description-row > * {
+    padding-right: 30px;
+}
+
+.description {
+    display: flex;
+    align-items: center;
+    column-gap: 30px;
+    padding-bottom: 50px;
+}
+
+.description textarea {
+    flex: 1;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: gray;
+    padding: 5px;
+}
+
+h4 {
+    text-align: center;
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button button {
+    width: 300px;
+    height: 60px;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 20px;
+    background-color: rgb(9, 9, 117);
+    color: white;
+}
+
+.submit-button button:hover {
+    
+    background-color: rgb(12, 12, 215);
+    color: white;
+}
+
+.submit-button button:active {
+    background-color:white;
+    color:black;
+}

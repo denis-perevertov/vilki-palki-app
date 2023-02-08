@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard 3</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="/css/banners.css">
+  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+  <nav th:insert="~{header-sidebar :: header}"></nav>
+  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+  <div class="content-wrapper">
+
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-bold text-blue text-maroon">Баннера приложения</h1>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+
+        <span style="font-weight: bold; font-size: 24px; color: green; margin-bottom: 15px;" th:text="${success_message}"></span>
+        <span style="font-weight: bold; font-size: 14px; color: red; margin-bottom: 15px;" th:text="${fail_message}"></span>
+
+        <form method="post" enctype="multipart/form-data">
+
+           <div class="banners">
+
+            <div th:each="banner : ${banners}" class="banner">
+              <div class="image">
+                <img th:src="@{/images/banners/{fileName}(fileName=${banner.fileName})}" src="/images/placeholder.jpg" onclick="addphoto(this)" alt="">
+                <span>+ Добавить фото</span>
+              </div>
+              <button type="button" onclick="addphoto(this)">+ Добавить</button>
+              <input type="file" onchange="showphoto(this)" name="banners" id="" style="display:none;">
+              <button type="button" onclick="removephoto(this)">- Удалить</button>
+            </div>
+
+            <button id="add-button" type="button">+ Добавить баннер</button>
+
+           </div>
+
+           <div class="submit">
+
+             <a href=""><button id="submit-button" type="submit">+ Сохранить</button></a>
+
+           </div>
+
+        </form>
+
+      </div>
+    </div>
+
+
+    
+  </div>
+  <script>
+
+    let btn = document.getElementById("add-button");
+    console.log('alo');
+
+    btn.addEventListener('click', function() {
+
+      console.log('ALO');
+
+      let banner = document.createElement('div');
+      banner.classList.add('banner');
+      banner.innerHTML = '<div class="image"><img src="/images/placeholder.jpg" onclick="addphoto(this)" alt=""><span>+ Добавить фото</span></div>'
+      + '<button type="button" onclick="addphoto(this)">+ Добавить</button><input type="file" onchange="showphoto(this)" name="banners" id="" style="display:none;">'
+      + '<button type="button" onclick="removephoto(this)">- Удалить</button>'
+
+      btn.parentElement.insertBefore(banner,btn);
+
+    });
+
+    function addphoto(btn) {
+      let input = btn.parentElement.closest(".banner").querySelector('input');
+
+      input.click();
+    }
+
+    function showphoto(input) {
+      let photo = input.files[0];
+      let imageContainer = input.parentElement.closest(".banner").querySelector('.image');
+      let image = "";
+      let imagePath = URL.createObjectURL(photo);
+      image += '<img src="' + imagePath + '" onclick="addphoto(this)" alt=""><span>+ Добавить фото</span>';
+      imageContainer.innerHTML = image;
+
+      console.log(input.value);
+    }
+
+    function removephoto(btn) {
+      let image = btn.parentElement.querySelector('.image').children[0];
+      image.src = "placeholder.jpg";
+
+      let input = btn.parentElement.closest(".banner").querySelector('input');
+
+      input.value = "";
+
+      console.log(input.value);
+    }
+
+  </script>
+
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/adminlte.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/pages/dashboard3.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard 3</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="/css/user-edit.css">
+  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+  <nav th:insert="~{header-sidebar :: header}"></nav>
+  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+  <div class="content-wrapper">
+
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-bold text-blue text-maroon">Кабинет пользователя</h1>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+
+        <form method="post" th:object="${user}">
+
+          <div class="user-data">
+
+            <div class="user-data-row">
+
+              <div class="user-data-col">
+                <span>Язык</span>
+                <input type="radio" name="language" th:value="UKR" id="">UKR
+                <input type="radio" name="language" th:value="RUS" id="">RUS
+                <input type="radio" name="language" th:value="ENG" id="">ENG
+              </div>
+
+            </div>
+
+            <div class="user-data-row">
+
+              <div class="user-data-col">
+                <span>Имя</span>
+                <input type="text" name="name" id="" placeholder="...">
+              </div>
+
+              <div class="user-data-col">
+                <span>Телефон</span>
+                <input type="text" name="phone" id="" placeholder="+380991234567">
+              </div>
+
+            </div>
+
+            <div class="user-data-row">
+
+              <div class="user-data-col">
+                <span>E-mail</span>
+                <input type="text" name="email" id="" placeholder="...@xxxxx.xxx">
+              </div>
+
+              <div class="user-data-col">
+                <span>Дата рождения</span>
+                <input type="date" name="birthdate" id="" value="1999-09-30">
+              </div>
+
+            </div>
+
+            <div class="user-data-row">
+
+              <div class="user-data-col">
+                <span>Пароль</span>
+                <input type="text" name="password" id="" placeholder="...">
+              </div>
+
+              <div class="user-data-col">
+                <span>Повторить пароль</span>
+                <input type="text" name="confirm_password" id="">
+              </div>
+
+            </div>
+
+            <div class="user-data-row">
+
+              <button type="submit">Сохранить</button>
+
+              <button type="reset">Сбросить</button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    
+    
+  </div>
+
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap4.min.js"></script>
+<script src="/js/dataTables.responsive.min.js"></script>
+<script src="/js/responsive.bootstrap4.min.js"></script>
+<script src="/js/dataTables.buttons.min.js"></script>
+<script src="/js/buttons.bootstrap4.min.js"></script>
+<script src="/js/dashboard3.js"></script>
+<script src="/js/adminlte.js"></script>
+
+</body>
+</html>

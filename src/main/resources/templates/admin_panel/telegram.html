@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard 3</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+  <nav th:insert="~{header-sidebar :: header}"></nav>
+  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-bold text-blue text-maroon">Рассылка SMS</h1>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+        
+        <div class="row">
+          <p style="font-weight: bold">Выбрать пользователей</p>
+
+          <div>
+              <input type="radio" name="users_sms" id="all_users_sms" checked onclick="disable()">
+              <label for="all_users_sms">Все пользователи</label></div>
+          <div>
+              <input type="radio" name="users_sms" id="random_users_sms" value="2" onclick="enable()">
+              <label for="random_users_sms">Выборочно</label>
+          </div>
+          <form action="/sms/users" method="get">
+              <button type="submit" id="users_check" disabled>Выбрать пользователей</button>
+          </form>
+      </div>
+
+      <div class="row">
+
+          <p style="font-weight: bold">Текст SMS</p>
+
+      </div>
+
+
+      <div class="row">
+
+          <textarea name="sms_text" id="sms_text" cols="70" rows="10" placeholder="Введите текст"></textarea>
+          <div>
+              <p style="font-weight: bold" id="sms_count">Кол-во SMS: </p>
+              <p style="font-weight: bold" id="send_percent">Рассылка выполнена на: </p>
+          </div>
+
+      </div>
+
+      <div style="display: flex; justify-content: center; padding: 20px;">
+
+          <button onclick="smsSend()">Начать рассылку</button>
+
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/adminlte.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/pages/dashboard3.js"></script>
+</body>
+</html>

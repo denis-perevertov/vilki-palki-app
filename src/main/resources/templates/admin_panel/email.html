@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard 3</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+  <nav th:insert="~{header-sidebar :: header}"></nav>
+  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-bold text-blue text-maroon">Рассылка по E-Mail</h1>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+        
+          <div class="row">
+            <p style="font-weight: bold">Кому отсылать e-mail: </p>
+
+            <div>
+                <input type="radio" name="users_email" id="all_users_email" checked onclick="disableEmail()">
+                <label for="all_users_email">Все пользователи</label></div>
+            <div>
+                <input type="radio" name="users_email" id="random_users_email" onclick="enableEmail()">
+                <label for="random_users_email">Выборочно</label>
+            </div>
+
+            <button id="users_check_email" disabled>Выбрать пользователей</button>
+        </div>
+
+        <div class="row" style="justify-content: space-between">
+            <div>
+                <p style="display: inline-block; padding-right: 20px; font-weight: bold">Загрузить HTML-письмо</p>
+                <button type="button" onclick="loadHTML()">Загрузить</button>
+                <input type="file" accept="text/html" id="html_download" style="display: none">
+                <p id="html" style="font-weight: bold">Загружен файл: </p>
+                <p id="template" style="font-weight: bold">Шаблон используемый в текущей рассылке: </p>
+                <p id="email_count" style="font-weight: bold">Кол-во писем: </p>
+                <p id="email_percent" style="font-weight: bold">Рассылка выполнена на: </p>
+            </div>
+            <div class="container" style="padding-bottom: 80px; padding-left: 30px; padding-right: 30px;">
+                <p>Список последних загруженных шаблонов</p>
+                <div id="template_list">
+                    <input type="radio" name="template" onclick="setTemplate(this)" value="Новый товар на 05.02.2011">Новый товар на 05.02.2011<br>
+                    <input type="radio" name="template" onclick="setTemplate(this)" value="Новый товар на 05.02.2011">Новый товар на 05.02.2011<br>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; padding: 20px;">
+
+            <form method="post">
+                <button onclick="emailSend()">Начать рассылку</button>
+            </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/adminlte.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/pages/dashboard3.js"></script>
+
+</body>
+</html>

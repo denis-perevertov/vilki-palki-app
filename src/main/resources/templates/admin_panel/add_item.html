@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard 3</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="/css/user-edit.css">
+  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+  <nav th:insert="~{header-sidebar :: header}"></nav>
+  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+  <div class="content-wrapper">
+
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-bold text-blue text-maroon">Редактировать товар</h1>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+
+        <span style="font-weight: bold; font-size: 24px; color: green; margin-bottom: 10px" th:text="${success_message}"></span>
+
+        <form method="post" enctype="multipart/form-data" th:object="${item}">
+        
+        <div class="item-data">
+
+          <div class="item-data-row">
+
+            <div class="item-picture">
+              <img th:src="@{/images/placeholder.jpg}" id="image_container" onclick="addPhoto()" alt="">
+              <span class="add-photo">+ Добавить фото</span>
+              <input type="file" accept="image/*" name="picture" id="file_input" onchange="showPhoto(this)" style="display: none">
+            </div>
+
+            <div class="item-description">
+              <div class="item-description-row"><span>Имя</span><input type="text" name="name" id=""></div>
+              <div class="item-description-row"><span>Цена</span><input type="text" name="price" id=""></div>
+              <div class="item-description-row"><span>Жиры</span><input type="text" name="fats" id=""></div>
+              <div class="item-description-row"><span>Углеводы</span><input type="text" name="carbons" id=""></div>
+              <div class="item-description-row"><span>Белки</span><input type="text"  name="proteins" id=""></div>
+              <div class="item-description-row"><span>Калории</span><input type="text" name="calories" id=""></div>
+              <div class="item-description-row"><span>Вес</span><input type="text" name="weight" id=""></div>
+
+              <div class="item-description-row">
+                <span>Категория</span>
+                <select name="category" id="category">
+                  <option th:each="category : ${categories}" th:value="${category.name}"><span th:text="${category.name}">I</span></option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="description">
+            <h4>Описание</h4>
+            <textarea name="description" id="desc" cols="30" rows="10"></textarea>
+          </div>
+
+          <h4>Состав</h4>
+
+          <div class="ingredients">
+            <div class="ingredient"></div>
+            <div class="plus">Добавить</div>
+          </div>
+
+          <div class="submit-button">
+            <a href="#"><button type="submit">+   Сохранить</button></a>
+          </div>
+
+        </div>
+
+        </form>
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>
+
+<script>
+
+  function addPhoto() {
+      let input = document.getElementById('file_input');
+      input.click();
+  }
+
+  function showPhoto(file_input) {
+    let photo = file_input.files[0];
+    let photo_path = URL.createObjectURL(photo);
+    let image_container = document.getElementById('image_container');
+    image_container.src = photo_path;
+  }
+
+</script>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/adminlte.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/pages/dashboard3.js"></script>
+
+
+</body>
+</html>
