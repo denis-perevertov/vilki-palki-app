@@ -23,10 +23,10 @@ public class EmailService {
 
     public void sendMail() throws MessagingException {
 
-        String to = "regicuinte@gmail.com";
-        String from = "perevertov.denis.88@gmail.com";
-        final String username = "perevertov.denis.88@gmail.com";
-        final String password = "ceqcxbanfdknaeai";
+        String to = "****";
+        String from = "****";
+        final String username = "****";
+        final String password = "****";
 
         String host = "smtp.gmail.com";
 

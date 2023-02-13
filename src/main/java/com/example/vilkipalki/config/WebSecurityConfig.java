@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -25,29 +26,18 @@ public class WebSecurityConfig {
     private JwtFilter jwtFilter;
 
     @Bean
+    @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
 
         log.info("starting api filter chain");
 
-        http.csrf().disable()
-                .httpBasic().disable()
-                        .formLogin().disable();
-
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/**").permitAll());
-
-//        http.csrf().disable()
-//                        .authorizeHttpRequests()
-//                                .requestMatchers("/auth", "/login").permitAll()
-//                        .requestMatchers("/**").authenticated()
-//                        .and().formLogin()
-//                        .loginPage("/login")
-//                .defaultSuccessUrl("/admin", true)
-//                .failureUrl("/login?error=true")
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .deleteCookies("JSESSIONID");
+        http.securityMatcher("/api/**").csrf().disable()
+                        .authorizeHttpRequests()
+                        .requestMatchers("/api/register", "/api/auth").permitAll()
+                        .requestMatchers("/api/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                        .and()
+                                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -55,54 +45,33 @@ public class WebSecurityConfig {
     }
 
 
-//    @Bean
-//    public SecurityFilterChain adminPanelFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain adminPanelFilterChain(HttpSecurity http) throws Exception {
 
-//        log.info("starting admin panel filter chain");
-//
-//        http.csrf().disable().httpBasic().disable();
-//
-//        http
-//            .authorizeHttpRequests(authorize -> authorize
-//                    .anyRequest().authenticated()
-//            )
-//            .formLogin()
-//            .loginPage("/login")
-//            .defaultSuccessUrl("/admin", true)
-//            .failureUrl("/login?error=true")
-//            .and()
-//            .logout()
-//            .logoutUrl("/logout")
-//            .deleteCookies("JSESSIONID");
+        log.info("starting admin panel filter chain");
 
-//        http.csrf()
-//                .disable()
-//                .authorizeHttpRequests(auth -> {
-//                        try {
-//                            auth.requestMatchers("/admin/**")
-//                                .hasAnyRole("ADMIN", "USER")
-//                                .requestMatchers("/login*").permitAll()
-//                                .anyRequest()
-//                                .authenticated()
-//                                    .and()
-//                                .formLogin()
-//                                .loginPage("/login")
-//                                .defaultSuccessUrl("/admin", true)
-//                                .failureUrl("/login?error=true")
-//                                    .and()
-//                                .logout()
-//                                .logoutUrl("/logout")
-//                                .deleteCookies("JSESSIONID");
-//                        } catch (Exception e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                );
+        http
+                .authorizeHttpRequests()
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/resources/**").permitAll()
+                .anyRequest().authenticated()
+                        .and()
+                                .formLogin()
+                                        .loginPage("/login")
+                                        .defaultSuccessUrl("/admin", true)
+                                        .failureUrl("/login?error=true")
+                        .and()
+                                .logout()
+                                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                        .logoutSuccessUrl("/login?logout=true").deleteCookies("JSESSIONID")
+                                        .invalidateHttpSession(true);
 
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
-//        return http.build();
-//    }
+        return http.build();
+    }
 
 
     @Bean

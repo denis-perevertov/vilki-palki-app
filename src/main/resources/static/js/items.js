@@ -27,6 +27,8 @@ $(document).ready(function() {
 
         $.ajax("http://localhost:8080/api/v3/items/categories/" + id, {
             datatype: "json",
+            contentType: "json",
+
             success: function(data) {
                 console.log(data);
 

@@ -24,7 +24,7 @@ public class AuthController {
         this.jwtProvider = jwtProvider;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public String registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
         AppUser user = new AppUser();
         user.setEmail(registrationRequest.login());
@@ -33,10 +33,12 @@ public class AuthController {
         return "Ok";
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/api/auth")
     public AuthResponse auth(@RequestBody AuthRequest request) {
         AppUser user = userService.findByLoginAndPassword(request.login(), request.password());
         String token = jwtProvider.generateToken(user.getEmail());
         return new AuthResponse(token);
     }
+
+
 }
