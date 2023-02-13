@@ -10,11 +10,12 @@ import lombok.Data;
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="ingr_generator", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingr_generator")
     private long id;
 
     private String name;
 
     //имя файла или blob
-    private String icon;
+    private byte[] icon;
 }

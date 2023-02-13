@@ -1,14 +1,17 @@
 package com.example.vilkipalki.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 
 @Entity
 @Table(name="items")
 @Data
+@ToString(exclude = "category_id")
 public class MenuItem {
 
     @Id
@@ -26,8 +29,9 @@ public class MenuItem {
 
     private String pictureFileName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
+    @JsonBackReference
     private Category category_id;
 
     //Имя, стоимость, картинка

@@ -4,7 +4,7 @@ function createCard(item){
     item_card.classList.add('item');
     console.log(item);
     if(item.category_id != null) console.log(item.category_id.id);
-    item_card.setAttribute('href', 'items/' + item.category_id.id + '/' + item.id);
+    item_card.setAttribute('href', 'items/' + item.id);
     item_card.innerHTML = '<img src="'+item.pictureFileName+'" alt="">'
                                  +'<div>'
                                  +  '<p>'+item.name+'</p>'
@@ -22,7 +22,10 @@ $(document).ready(function() {
 
     $(".category").click(function() {
 
-        $.ajax("http://localhost:8080/api/v3/items", {
+        let id = $(this).find("span").text();
+        console.log("ID OF CATEGORY = " + id);
+
+        $.ajax("http://localhost:8080/api/v3/items/categories/" + id, {
             datatype: "json",
             success: function(data) {
                 console.log(data);
@@ -36,10 +39,10 @@ $(document).ready(function() {
                 }
 
                 let promise = new Promise(function(resolve, reject) {
-                    $(".content .container-fluid").fadeOut("fast");
+                    $(".content .container-fluid").fadeOut("slow");
                     setTimeout(() => {
                         resolve("result")
-                    }, 300)
+                    }, 500)
 
                 });
 

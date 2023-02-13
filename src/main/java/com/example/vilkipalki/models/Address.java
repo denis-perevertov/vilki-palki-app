@@ -13,4 +13,8 @@ public class Address implements Serializable {
 
     private String comment;
 
+    @Override
+    public String toString() {
+        return String.join(", ", street, house, apartment);
+    }
 }

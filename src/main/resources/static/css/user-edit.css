@@ -134,3 +134,36 @@ h4 {
     background-color:white;
     color:black;
 }
+
+.ingredients {
+    margin-block: 20px;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    row-gap: 20px;
+    flex-wrap: wrap;
+}
+
+.plus, .ingredient {
+    display: inline-block;
+    width: 15%;
+    height: 150px;
+    border: 2px solid black;
+    border-radius: 30px;
+    background-color: white;
+
+    cursor: pointer;
+    caret-color: transparent;
+
+    text-align: center;
+}
+
+.plus:hover, .ingredient:hover {
+    color: purple;
+    transition: color 0.3s;
+}
+
+.plus {
+    font-size: 100px;
+    font-weight: bold;
+}

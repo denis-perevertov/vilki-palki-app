@@ -32,6 +32,12 @@ public class ItemController {
         return categoryRepo.findAll();
     }
 
+    //получить все товары одной категории
+    @GetMapping("/categories/{id}")
+    public List<MenuItem> getItemsOfCategory(@PathVariable long id) {
+        return categoryRepo.findById(id).orElseThrow().getItemList();
+    }
+
     //получить конкретный товар
     @GetMapping("/{item_id}")
     public MenuItem getSingleItem(@PathVariable long item_id) {

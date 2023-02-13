@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Dashboard 3</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="/css/items.css">
+    <link rel="stylesheet" href="/css/tables.css">
+    <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+    <nav th:insert="~{header-sidebar :: header}"></nav>
+    <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+    <div class="content-wrapper">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-bold text-blue text-maroon">История заказов</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container-fluid">
+
+                <table border="0" cellspacing="5" cellpadding="5">
+
+                    <tbody>
+                        <tr>
+                            <td>От: </td>
+                            <td><input type="date" value="2023-01-01" id="min" name="min"></td>
+                        </tr>
+                        <tr>
+                            <td>До:</td>
+                            <td><input type="date" th:value="${now}" id="max" name="max"></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <table id="example" class="display" cellspacing="0" width="100%">
+                    <thead>
+
+                        <tr>
+                            <th>ID заказа</th>
+                            <th>ID пользователя</th>
+                            <th>Статус</th>
+                            <th>Адрес</th>
+                            <th>Содержание заказа</th>
+                            <th>Дата создания</th>
+                        </tr>
+
+                    </thead>
+
+                    <tfoot>
+
+                        <tr>
+                            <th>ID заказа</th>
+                            <th>ID пользователя</th>
+                            <th>Статус</th>
+                            <th>Адрес</th>
+                            <th>Содержание заказа</th>
+                            <th>Дата создания</th>
+                        </tr>
+
+                    </tfoot>
+
+                    <tbody>
+
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.id}">Tiger Nixon</td>
+                            <td th:text="${order.user_id}">Tiger Nixon</td>
+                            <td th:text="${order.status}">Tiger Nixon</td>
+                            <td th:text="${order.address}">Tiger Nixon</td>
+                            <td>
+                                <ul>
+                                    <li th:each="item : ${order.itemList}">
+                                        <span th:text="${item.name}"></span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td th:text="${#temporals.format(order.datetime, 'yyyy-MM-dd')}">Tiger Nixon</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.2.0/js/dataTables.dateTime.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap4.min.js"></script>
+<script src="/js/dataTables.responsive.min.js"></script>
+<script src="/js/responsive.bootstrap4.min.js"></script>
+<script src="/js/dataTables.buttons.min.js"></script>
+<script src="/js/buttons.bootstrap4.min.js"></script>
+<script src="/js/dashboard3.js"></script>
+<script src="/js/adminlte.js"></script>
+
+<script>
+
+  var minDate, maxDate;
+
+    // Custom filtering function which will search data in column four between two values
+    $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var min = new Date(minDate.val());
+            var max = new Date(maxDate.val());
+            var date = new Date( data[5] );
+            console.log(date);
+            console.log(typeof date);
+            console.log(min);
+            console.log(max);
+            console.log(typeof max);
+
+            if (
+                ( min === null && max === null ) ||
+                ( min === null && date <= max ) ||
+                ( min <= date   && max === null ) ||
+                ( min <= date   && date <= max )
+            ) {
+                return true;
+            }
+            return false;
+        }
+    );
+
+  $(document).ready(function() {
+
+        minDate = $('#min');
+        maxDate = $('#max');
+
+        // DataTables initialisation
+        var table = $('#example').DataTable();
+
+        table.draw();
+
+        // Refilter the table
+        $('#min, #max').on('change', function () {
+            console.log("ALO");
+            table.draw();
+        });
+  });
+</script>
+
+</body>
+</html>

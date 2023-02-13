@@ -1,11 +1,10 @@
 package com.example.vilkipalki.controllers;
 
-import com.example.vilkipalki.models.AppUser;
-import com.example.vilkipalki.models.Banner;
-import com.example.vilkipalki.models.Category;
-import com.example.vilkipalki.models.MenuItem;
+import com.example.vilkipalki.models.*;
 import com.example.vilkipalki.repos.*;
+import com.example.vilkipalki.services.EmailService;
 import com.example.vilkipalki.util.FileUploadUtil;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -14,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 @Controller
@@ -26,17 +26,26 @@ public class AdminPanelController {
     private final BannerRepository bannerRepository;
     private final AppUserRepository appUserRepository;
     private final OrderRepository orderRepository;
+    private final IngredientRepository ingredientsRepository;
+
+    private final EmailService emailService;
 
     private static final String imageUploadDirectory = "src/main/resources/static/images/";
 
     public AdminPanelController(MenuItemRepository itemRepo,
                                 CategoryRepository categoryRepository,
-                                BannerRepository bannerRepository, AppUserRepository appUserRepository, OrderRepository orderRepository) {
+                                BannerRepository bannerRepository,
+                                AppUserRepository appUserRepository,
+                                OrderRepository orderRepository,
+                                IngredientRepository ingredientsRepository,
+                                EmailService emailService) {
         this.itemRepo = itemRepo;
         this.categoryRepository = categoryRepository;
         this.bannerRepository = bannerRepository;
         this.appUserRepository = appUserRepository;
         this.orderRepository = orderRepository;
+        this.ingredientsRepository = ingredientsRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -81,7 +90,8 @@ public class AdminPanelController {
     @GetMapping("/orders/history")
     public String showOrderHistoryPage(Model model) {
         model.addAttribute("orders", orderRepository.findAll());
-        return "admin_panel/orders";
+        model.addAttribute("now", LocalDate.now());
+        return "admin_panel/order_history";
     }
 
     // ----------------- ЗАКАЗЫ ----------------- //
@@ -134,55 +144,47 @@ public class AdminPanelController {
     public String showAddItemPage(@ModelAttribute MenuItem item, Model model) {
         Iterable<Category> categoryList = categoryRepository.findAll();
         model.addAttribute("categories", categoryList);
+
+        Iterable<Ingredient> ingredientsList = ingredientsRepository.findAll();
+        model.addAttribute("ingredients", ingredientsList);
         return "admin_panel/add_item";
     }
 
     @PostMapping("/items/add-item")
-    public String addItem(@RequestParam(required = false) String name,
-                          @RequestParam(required = false) Integer weight,
-                          @RequestParam(required = false) Integer proteins,
-                          @RequestParam(required = false) Integer fats,
-                          @RequestParam(required = false) Integer carbons,
-                          @RequestParam(required = false) Integer price,
-                          @RequestParam(required = false) Integer calories,
+    public String addItem(@ModelAttribute MenuItem item,
                           @RequestParam(required = false) String category,
-                          @RequestParam(required = false) String description,
                           @RequestParam(required = false) MultipartFile picture,
                           RedirectAttributes redirAttrs,
                           Model model) throws IOException {
 
-        MenuItem item = new MenuItem();
-        item.setName(name);
-        item.setWeight(weight);
-        item.setProteins(proteins);
-        item.setFats(fats);
-        item.setCarbons(carbons);
-        item.setPrice(price);
-        item.setCalories(calories);
         System.out.println(category);
         System.out.println(categoryRepository.findByName("tt"));
         item.setCategory_id(categoryRepository.findByName(category).orElseThrow());
-        item.setDescription(description);
 
         if(!picture.isEmpty() && picture.getOriginalFilename() != null) {
             item.setPictureFileName(picture.getOriginalFilename());
             FileUploadUtil.saveFile(imageUploadDirectory, picture.getOriginalFilename(), picture);
         }
 
-
-
         MenuItem savedItem = itemRepo.save(item);
 
         redirAttrs.addFlashAttribute("success_message",
-                "Успешно добавили новый предмет: " + name + "(id=" + savedItem.getId() + ")");
+                "Успешно добавили новый предмет: " + savedItem.getName() + "(id=" + savedItem.getId() + ")");
 
         return "redirect:/admin/items/add-item";
     }
 
 
-    @GetMapping("/items/{category_id}/{item_id}")
-    public String showItemPage(@PathVariable Long category_id, @PathVariable Long item_id, Model model) {
+    @GetMapping("/items/{item_id}")
+    public String showItemPage(@PathVariable Long item_id, Model model) {
         model.addAttribute("item", itemRepo.findById(item_id).orElseThrow());
+
+        Iterable<Category> categoryList = categoryRepository.findAll();
+        model.addAttribute("categories", categoryList);
+
+        Iterable<Ingredient> ingredientsList = ingredientsRepository.findAll();
+        model.addAttribute("ingredients", ingredientsList);
+
         return "admin_panel/item_edit";
     }
 
@@ -242,16 +244,25 @@ public class AdminPanelController {
 
     @GetMapping("/sms")
     public String showSMSPage(Model model) {
+        model.addAttribute("users", appUserRepository.findAll());
         return "admin_panel/sms";
     }
 
     @GetMapping("/email")
     public String showEmailPage(Model model) {
+        model.addAttribute("users", appUserRepository.findAll());
         return "admin_panel/email";
     }
 
     @GetMapping("/telegram")
     public String showTelegramPage(Model model) {
+        model.addAttribute("users", appUserRepository.findAll());
         return "admin_panel/telegram";
+    }
+
+    @PostMapping("/email")
+    public @ResponseBody String sendEmails() throws MessagingException {
+        emailService.sendMail();
+        return "Sending mail...";
     }
 }

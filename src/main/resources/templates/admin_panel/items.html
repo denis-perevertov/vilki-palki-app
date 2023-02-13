@@ -38,6 +38,7 @@
         <div class="categories">
 
           <div class="category" th:each="category : ${categories}" href="#" >
+            <span style="display: none" th:text="${category.id}"></span>
             <img th:src="@{/images/categories/{id}/{name}(id=${category.id},name=${category.iconFileName})}" alt="">
             <p th:text="${category.name}"></p>
           </div>

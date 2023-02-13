@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
   <link rel="stylesheet" href="/css/user-edit.css">
+  <link rel="stylesheet" href="/css/modal.css">
   <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
 </head>
 
@@ -60,7 +61,7 @@
 
               <div class="item-description-row">
                 <span>Категория</span>
-                <select th:text="${item.category_id.name}" name="category" id="category">
+                <select name="category" id="category">
                   <option th:each="category : ${categories}" th:value="${category.name}"><span th:text="${category.name}">I</span></option>
                 </select>
               </div>
@@ -77,7 +78,7 @@
 
           <div class="ingredients">
             <div class="ingredient"></div>
-            <div class="plus">Добавить</div>
+            <div class="plus">+</div>
           </div>
 
           <div class="submit-button">
@@ -88,6 +89,25 @@
 
         </form>
 
+        <div id="myModal" class="mod">
+
+          <!-- Modal content -->
+          <div class="mod-cont">
+            <div class="mod-head">
+              <h2 style="display: inline-block">Выбрать ингредиенты</h2>
+              <span class="close">&times;</span>
+            </div>
+            <div class="mod-b">
+              <div class="ingredient" th:each="ingr : ${ingredients}">
+                <img th:src="@{/images/ingredients/{id}/{icon}(id=${ingr.id}), icon=${ingr.icon}}" alt="" class="icon">
+                <p th:text="${ingr.name}"></p>
+              </div>
+              <div class="plus">+</div>
+            </div>
+          </div>
+
+        </div>
+
 
       </div>
     </div>
@@ -97,6 +117,14 @@
 
 
 </div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/adminlte.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/pages/dashboard3.js"></script>
+<script src="/js/modal.js"></script>
+
 
 <script>
 
@@ -113,12 +141,6 @@
   }
 
 </script>
-
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/adminlte.js"></script>
-<script src="/js/Chart.min.js"></script>
-<script src="/js/pages/dashboard3.js"></script>
 
 
 </body>
