@@ -1,5 +1,6 @@
 package com.example.vilkipalki.controllers;
 
+import com.example.vilkipalki.exception.CategoryNotFoundException;
 import com.example.vilkipalki.models.*;
 import com.example.vilkipalki.repos.*;
 import com.example.vilkipalki.services.EmailService;
@@ -188,6 +189,29 @@ public class AdminPanelController {
         return "admin_panel/item_edit";
     }
 
+    @PostMapping("/items/{item_id}")
+    public String editItem(@ModelAttribute MenuItem item,
+                          @PathVariable long item_id,
+                          @RequestParam(required = false) String category,
+                          @RequestParam(required = false) MultipartFile picture,
+                          RedirectAttributes redirAttrs,
+                          Model model) throws IOException {
+
+        item.setId(item_id);
+        item.setCategory_id(categoryRepository.findByName(category).orElseThrow(CategoryNotFoundException::new));
+
+        if(!picture.isEmpty() && picture.getOriginalFilename() != null) {
+            item.setPictureFileName(picture.getOriginalFilename());
+            FileUploadUtil.saveFile(imageUploadDirectory, picture.getOriginalFilename(), picture);
+        }
+
+        MenuItem savedItem = itemRepo.save(item);
+
+        redirAttrs.addFlashAttribute("success_message",
+                "Успешно добавили новый предмет: " + savedItem.getName() + "(id=" + savedItem.getId() + ")");
+
+        return "redirect:/admin/items";
+    }
     // ----------------- ТОВАРЫ ----------------- //
 
 

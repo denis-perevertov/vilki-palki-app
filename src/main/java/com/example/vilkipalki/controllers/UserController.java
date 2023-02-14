@@ -1,10 +1,12 @@
 package com.example.vilkipalki.controllers;
 
+import com.example.vilkipalki.dto.UserDTO;
 import com.example.vilkipalki.models.Address;
 import com.example.vilkipalki.models.AppUser;
 import com.example.vilkipalki.models.MenuItem;
 import com.example.vilkipalki.repos.MenuItemRepository;
 import com.example.vilkipalki.repos.AppUserRepository;
+import com.example.vilkipalki.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,49 +25,38 @@ public class UserController {
 
     private final AppUserRepository userRepo;
     private final MenuItemRepository menuItemRepository;
+    private final UserService userService;
 
-    public UserController(AppUserRepository userRepo, MenuItemRepository menuItemRepository) {
+    public UserController(AppUserRepository userRepo,
+                          MenuItemRepository menuItemRepository,
+                          UserService userService) {
         this.userRepo = userRepo;
         this.menuItemRepository = menuItemRepository;
+        this.userService = userService;
     }
 
     // ----------------- ПОЛЬЗОВАТЕЛИ ----------------- //
 
     @GetMapping
     public List<AppUser> users() {
-        return userRepo.findAll();
+        return userService.getAllUsers();
     }
 
-    @PostMapping("/add-appUser")
+    @PostMapping("/add-user")
     public ResponseEntity<String> addUser(@Valid @RequestBody AppUser appUser) {
-        AppUser newAppUser = userRepo.save(appUser);
-
-        System.out.println(ResponseEntity.ok().build());
-
+        AppUser newAppUser = userService.saveUser(appUser);
         return ResponseEntity.ok().body("Added new appUser " + newAppUser.getName() + " , id = " + newAppUser.getId());
     }
 
     @PutMapping("/{id}/edit")
-    public AppUser editUserById(@Valid @RequestBody AppUser newAppUser, @PathVariable long id) {
-
-        return userRepo.findById(id)
-                .map(user -> {
-                    user.setBirthdate(newAppUser.getBirthdate());
-                    user.setName(newAppUser.getName());
-                    user.setLanguage(newAppUser.getLanguage());
-                    user.setPassword(newAppUser.getPassword());
-                    user.setEmail(newAppUser.getEmail());
-                    user.setPhone(newAppUser.getPhone());
-                    user.setAvatarFileName(newAppUser.getAvatarFileName());
-                    return userRepo.save(user);
-                })
-                .orElseGet(() -> userRepo.save(newAppUser));
-
+    public ResponseEntity<String> editUserById(@Valid @RequestBody UserDTO newUserData, @PathVariable long id) {
+        userService.editUserData(id, newUserData);
+        return ResponseEntity.ok("Edited user data(id="+id+")");
     }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteUser(@PathVariable long id) {
-        userRepo.delete(userRepo.findById(id).orElseThrow());
+        userService.deleteUser(id);
         return ResponseEntity.ok().body("Successfully deleted user (id="+id+")");
     }
 
@@ -73,7 +64,6 @@ public class UserController {
 
 
     // ----------------- АДРЕСА ----------------- //
-
 
     //получение всех адресов одного пользователя
     @GetMapping("/{user_id}/address")

@@ -51,7 +51,7 @@
             </div>
 
             <div class="item-description">
-              <div class="item-description-row"><span>Имя</span><input type="text" th:value="${item.name}" id=""></div>
+              <div class="item-description-row"><span>Имя</span><input type="text" name="name" th:value="${item.name}" id=""></div>
               <div class="item-description-row"><span>Цена</span><input type="text" th:value="${item.price}" name="price" id=""></div>
               <div class="item-description-row"><span>Жиры</span><input type="text" th:value="${item.fats}" name="fats" id=""></div>
               <div class="item-description-row"><span>Углеводы</span><input type="text" th:value="${item.carbons}" name="carbons" id=""></div>
@@ -82,7 +82,7 @@
           </div>
 
           <div class="submit-button">
-            <a href="#"><button type="submit">+   Сохранить</button></a>
+            <a href="admin/items"><button type="submit">+   Сохранить</button></a>
           </div>
 
         </div>

@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name="items")
 @Data
-@ToString(exclude = "category_id")
 public class MenuItem {
 
     @Id
@@ -29,13 +28,23 @@ public class MenuItem {
 
     private String pictureFileName;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
     @JsonBackReference
     private Category category_id;
 
     //Имя, стоимость, картинка
-    @ElementCollection
+    @ManyToMany
+    @JoinTable(
+            name = "item_ingredients",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingr_id"))
     private List<Ingredient> ingredients;
+
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "itemList")
+    @JsonBackReference
+    private List<Order> orders;
 
 }

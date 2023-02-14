@@ -34,6 +34,7 @@ public class WebSecurityConfig {
         http.securityMatcher("/api/**").csrf().disable()
                         .authorizeHttpRequests()
                         .requestMatchers("/api/register", "/api/auth").permitAll()
+                        .requestMatchers("/api/v3/items/**").permitAll()
                         .requestMatchers("/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                         .and()
@@ -50,12 +51,14 @@ public class WebSecurityConfig {
 
         log.info("starting admin panel filter chain");
 
-        http
+        http.csrf().disable()
                 .authorizeHttpRequests()
+
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/resources/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                 .anyRequest().authenticated()
                         .and()
                                 .formLogin()

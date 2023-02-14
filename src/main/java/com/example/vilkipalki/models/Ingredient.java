@@ -2,6 +2,9 @@ package com.example.vilkipalki.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Table(name="ingredients")
@@ -18,4 +21,8 @@ public class Ingredient {
 
     //имя файла или blob
     private byte[] icon;
+
+    @ManyToMany(mappedBy = "ingredients")
+    @ToString.Exclude
+    private List<MenuItem> itemList;
 }

@@ -27,28 +27,16 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     private AppUserRole role;
 
-    //@NotBlank(message = "Имя обязательно")
-    private String name;
-
-    //@NotBlank(message = "Телефон обязателен")
-    //@Size(min = 13, max = 13, message = "Неправильный формат телефона")
-    private String phone;
-
-    private String avatarFileName;
-
-    //@Past
-    //@DateTimeFormat(pattern="yyyy-MM-dd")
-    private LocalDate birthdate;
-
     @Enumerated(EnumType.STRING)
     private Language language;
 
-    //@NotBlank(message = "Электронная почта обязательна")
-    @Email
+    private String name;
+    private String phone;
+    private String avatarFileName;
+    private LocalDate birthdate;
     private String email;
-
-    //@Size(min = 6, max = 20, message = "Пароль должен быть от 6 до 20 символов")
     private String password;
+    private int bonus;
 
     @ElementCollection
     private List<Order> orderList;
@@ -58,8 +46,5 @@ public class AppUser {
 
     @ElementCollection
     private List<MenuItem> favoriteItemsList;
-
-    private int bonus;
-
 
 }

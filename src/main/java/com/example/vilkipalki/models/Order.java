@@ -1,9 +1,12 @@
 package com.example.vilkipalki.models;
 
 
+import com.example.vilkipalki.services.UserService;
 import com.example.vilkipalki.util.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -28,10 +31,20 @@ public class Order implements Serializable {
 
     private long user_id;
 
-    @ElementCollection
+    @ManyToMany
+    @JoinTable(
+            name = "order_items",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JsonManagedReference
     private List<MenuItem> itemList;
 
     @DateTimeFormat(pattern="yyyy-MM-dd // hh:mm")
     private LocalDateTime datetime;
+
+    @PreRemove
+    private void removeOrdersFromUserList() {
+        //userService.getUserOrders(user_id).remove(this);
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.vilkipalki.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Category {
 
     private String iconFileName;
 
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy="category_id")
     @JsonManagedReference
     private List<MenuItem> itemList;
