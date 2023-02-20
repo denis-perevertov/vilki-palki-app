@@ -109,28 +109,46 @@ h4 {
     text-align: center;
 }
 
-.submit-button {
+.submit-button, .delete-button {
     display: flex;
+}
+
+.delete-button {
+    justify-content: flex-end;
+}
+
+.submit-button {
     justify-content: center;
 }
 
-.submit-button button {
+.submit-button button, .delete-button button {
     width: 300px;
     height: 60px;
     font-size: 30px;
     font-weight: bold;
     border-radius: 20px;
-    background-color: rgb(9, 9, 117);
     color: white;
+}
+
+.submit-button button {
+    background-color: rgb(9, 9, 117);
+}
+
+.delete-button button {
+    background-color: red;
+    margin-right: 50px;
+
 }
 
 .submit-button button:hover {
-    
     background-color: rgb(12, 12, 215);
-    color: white;
 }
 
-.submit-button button:active {
+.delete-button button:hover {
+    background-color: rgb(230, 0, 0);
+}
+
+.submit-button button:active, .delete-button button:active {
     background-color:white;
     color:black;
 }
@@ -156,6 +174,11 @@ h4 {
     caret-color: transparent;
 
     text-align: center;
+}
+
+.ingredient img {
+    max-width: 70%;
+    max-height: 70%;
 }
 
 .plus:hover, .ingredient:hover {

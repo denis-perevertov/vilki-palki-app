@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вилки Палки - Админка</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="/css/items.css">
+  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+  <nav th:insert="~{header-sidebar :: header}"></nav>
+  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+  <div class="content-wrapper">
+
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-bold text-blue text-maroon">Добавить</h1>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+
+        <form method="post" th:object="${ingr}" enctype="multipart/form-data">
+
+          <div class="photo">
+            <img onerror="this.onerror=null; this.src='/images/placeholder.jpg'"
+                 th:src="${ingr != null} ? @{/images/ingredients/{url}(url=${ingr.icon})} : '/images/placeholder.jpg'" id="image_container" onclick="addPhoto()" alt="">
+            <span class="add-photo">+ Добавить фото</span>
+            <input type="file" name="picture" onchange="uploadPhoto(this)" accept="image/*" id="file_input" style="display: none;">
+          </div>
+          <br>
+          <p>Название</p>
+          <input type="text" th:value="${ingr != null} ? ${ingr.name} : 'NewName'" name="name" id="">
+          <br>
+          <br>
+          <input type="submit" id="submit-button" value="+ Сохранить">
+
+
+        </form>
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <script>
+
+    function addPhoto() {
+      let input = document.getElementById('file_input');
+      input.click();
+    }
+
+    function uploadPhoto(file_input) {
+      let photo = file_input.files[0];
+      let photo_path = URL.createObjectURL(photo);
+      let image_container = document.getElementById('image_container');
+      image_container.src = photo_path;
+    }
+
+  </script>
+
+</div>
+
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap4.min.js"></script>
+<script src="/js/dataTables.responsive.min.js"></script>
+<script src="/js/responsive.bootstrap4.min.js"></script>
+<script src="/js/dataTables.buttons.min.js"></script>
+<script src="/js/buttons.bootstrap4.min.js"></script>
+<script src="/js/dashboard3.js"></script>
+<script src="/js/adminlte.js"></script>
+
+
+</body>
+</html>

@@ -35,6 +35,9 @@
     <div class="content">
       <div class="container-fluid">
 
+        <h3 th:if="${success}" style="color: green" th:text="${success}"></h3>
+        <h3 th:if="${fail}" style="color: red" th:text="${fail}"></h3>
+
         <form method="post" th:object="${user}">
 
           <div class="user-data">

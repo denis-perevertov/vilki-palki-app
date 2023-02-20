@@ -61,7 +61,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="user : ${users}">
-                                    <td><input type="checkbox" name="" id=""></td>
+                                    <td><input type="checkbox" checked th:attr="data-userid=${user.id}" class="checkbox" name="" id=""></td>
                                     <td th:text="${user.id}"></td>
                                     <td th:text="${user.name}"></td>
                                     <td th:text="${user.email}"></td>
@@ -116,15 +116,18 @@
                     <div class="template-container" style="margin-inline: 5%; padding-inline: 2%; padding-block: 25px;">
                         <p>Список последних загруженных шаблонов</p>
                         <div id="template_list">
-                            <input type="radio" name="template" onclick="setTemplate(this)" value="Новый товар на 05.02.2011">Новый товар на 05.02.2011<br>
-                            <input type="radio" name="template" onclick="setTemplate(this)" value="Новый товар на 05.02.2011">Новый товар на 05.02.2011<br>
+                            <div th:each="template : ${templates}">
+                                <input type="radio" name="t" onclick="setTemplate(this)" th:value="${template.name}">
+                                <span th:text="${template.name}">XXX</span>
+                                <br>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div style="display: flex; justify-content: center; padding: 20px;">
 
-                    <button id="send-button" onclick="emailSend()">Начать рассылку</button>
+                    <button id="send-button">Начать рассылку</button>
 
                 </div>
 
@@ -144,47 +147,33 @@
       btn.disabled = true;
     }
 
-    // Get the modal
     var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
     var btn = document.getElementById("users_check");
-
-    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal
     btn.onclick = function() {
       modal.style.display = "block";
       modal.style.opacity = 1;
     }
 
-    // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
       modal.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
     }
 
-    function emailSend() {
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/admin/email",
-            success: alert("success")
-        })
-    }
-
+    document.getElementById('save_users').addEventListener('click', function() {
+        modal.style.display = "none";
+    });
   </script>
 
 
 </div>
 
-<script src="/js/email.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
@@ -199,6 +188,8 @@
 <script src="/js/buttons.bootstrap4.min.js"></script>
 <script src="/js/dashboard3.js"></script>
 <script src="/js/adminlte.js"></script>
+
+<script src="/js/email.js"></script>
 
 <script>
   $(document).ready(function () {

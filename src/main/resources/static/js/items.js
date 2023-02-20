@@ -3,9 +3,9 @@ function createCard(item){
     let item_card = document.createElement('a');
     item_card.classList.add('item');
     console.log(item);
-    if(item.category_id != null) console.log(item.category_id.id);
+    if(item.category != null) console.log(item.category.id);
     item_card.setAttribute('href', 'items/' + item.id);
-    item_card.innerHTML = '<img src="'+item.pictureFileName+'" alt="">'
+    item_card.innerHTML = '<img src="/images/'+item.pictureFileName+'" alt="">'
                                  +'<div>'
                                  +  '<p>'+item.name+'</p>'
                                  +  '<p class="bold">'+item.price+'</p>'
@@ -25,7 +25,7 @@ $(document).ready(function() {
         let id = $(this).find("span").text();
         console.log("ID OF CATEGORY = " + id);
 
-        $.ajax("http://localhost:8080/api/v3/items/categories/" + id, {
+        $.ajax("http://localhost:8080/api/v3/items/categories/" + id + "/items", {
             datatype: "json",
             contentType: "json",
 
@@ -40,6 +40,14 @@ $(document).ready(function() {
                     item_list.appendChild(card);
                 }
 
+                let back_button = document.createElement('a');
+                back_button.innerHTML = '<button class="back_button" type="button">← Назад ←</button>';
+                back_button.setAttribute('href', "items");
+
+                let edit_button = document.createElement('a');
+                edit_button.innerHTML = '<button class="back_button" type="button">Редактировать категорию</button>';
+                edit_button.setAttribute('href', "items/categories/"+id);
+
                 let promise = new Promise(function(resolve, reject) {
                     $(".content .container-fluid").fadeOut("slow");
                     setTimeout(() => {
@@ -53,6 +61,8 @@ $(document).ready(function() {
                     result => {
                       // первая функция-обработчик - запустится при вызове resolve
                       $(".content .container-fluid").html(item_list);
+                      $(".content .container-fluid").append(back_button);
+                      $(".content .container-fluid").append(edit_button);
                       $(".content .container-fluid").fadeIn("fast");
                     },
                     error => {

@@ -28,7 +28,10 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-bold text-blue text-maroon">Редактировать товар</h1>
-          </div>          
+          </div>
+          <div th:if="${item != null}" class="col-sm-6 delete-button">
+            <a th:href="${item.id} + '/delete'"><button type="button">-   Удалить</button></a>
+          </div>
         </div>
       </div>
     </div>
@@ -45,7 +48,9 @@
           <div class="item-data-row">
 
             <div class="item-picture">
-              <img th:src="@{/images/photo.jpg}" id="image_container" onclick="addPhoto()" alt="">
+              <img onerror="this.onerror=null; this.src='/images/placeholder.jpg';"
+                   th:src="@{/images/{url}(url=${item.pictureFileName})}"
+                   id="image_container" onclick="addPhoto()" alt="">
               <span class="add-photo">+ Добавить фото</span>
               <input type="file" accept="image/*" name="picture" id="file_input" onchange="showPhoto(this)" style="display: none">
             </div>
@@ -62,7 +67,11 @@
               <div class="item-description-row">
                 <span>Категория</span>
                 <select name="category" id="category">
-                  <option th:each="category : ${categories}" th:value="${category.name}"><span th:text="${category.name}">I</span></option>
+                  <option th:each="category : ${categories}"
+                          th:value="${category.name}"
+                          th:text="${category.name}"
+                          th:selected="${category.name.equalsIgnoreCase(item.category.name)}">
+                  </option>
                 </select>
               </div>
             </div>
@@ -75,10 +84,13 @@
           </div>
 
           <h4>Состав</h4>
-
           <div class="ingredients">
-            <div class="ingredient"></div>
             <div class="plus">+</div>
+            <div th:each="ingr : ${item_ingredients}" onclick="removeFromList(this)" class="ingredient">
+              <img th:src="@{/images/ingredients/{icon}(icon=${ingr.icon})}" alt="" class="icon">
+              <p th:text="${ingr.name}"></p>
+              <input type="text" name="ingredients" style="display: none;" th:value="${ingr.id}">
+            </div>
           </div>
 
           <div class="submit-button">
@@ -99,10 +111,10 @@
             </div>
             <div class="mod-b">
               <div class="ingredient" th:each="ingr : ${ingredients}">
-                <img th:src="@{/images/ingredients/{id}/{icon}(id=${ingr.id}), icon=${ingr.icon}}" alt="" class="icon">
+                <img th:src="@{/images/ingredients/{id}/{icon}(id=${ingr.id}, icon=${ingr.icon})}" alt="" class="icon">
                 <p th:text="${ingr.name}"></p>
               </div>
-              <div class="plus">+</div>
+              <div class="plus" onclick="newIngredient(this)">+</div>
             </div>
           </div>
 
@@ -123,7 +135,7 @@
 <script src="/js/adminlte.js"></script>
 <script src="/js/Chart.min.js"></script>
 <script src="/js/pages/dashboard3.js"></script>
-<script src="/js/modal.js"></script>
+<script src="/js/modal2.js"></script>
 
 
 <script>

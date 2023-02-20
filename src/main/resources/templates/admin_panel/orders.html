@@ -65,7 +65,7 @@
 
                     <tbody>
 
-                    <tr th:each="order : ${orders}">
+                    <tr th:each="order : ${orders}" th:if="${order.current()}">
                         <td th:text="${order.id}">Tiger Nixon</td>
                         <td th:text="${order.user_id}">Tiger Nixon</td>
                         <td th:text="${order.status}">Tiger Nixon</td>
@@ -94,14 +94,21 @@
 
 
 </div>
-<!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
 
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.2.0/js/dataTables.dateTime.min.js"></script>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap4.min.js"></script>
+<script src="/js/dataTables.responsive.min.js"></script>
+<script src="/js/responsive.bootstrap4.min.js"></script>
+<script src="/js/dataTables.buttons.min.js"></script>
+<script src="/js/buttons.bootstrap4.min.js"></script>
+<script src="/js/dashboard3.js"></script>
 <script src="/js/adminlte.js"></script>
-<script src="/js/modal.js"></script>
 
 <script>
 
@@ -109,7 +116,7 @@
 
         // DataTables initialisation
         var table = $('#example').DataTable();
-
+        $('.dataTables_length').addClass('bs-select');
         table.draw();
   });
 </script>

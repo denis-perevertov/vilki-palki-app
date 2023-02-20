@@ -61,7 +61,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="user : ${users}">
-                                        <td><input type="checkbox" name="" id=""></td>
+                                        <td><input type="checkbox" th:attr="data-userid=${user.id}" class="checkbox" name="" id=""></td>
                                         <td th:text="${user.id}"></td>
                                         <td th:text="${user.name}"></td>
                                         <td th:text="${user.email}"></td>
@@ -121,7 +121,7 @@
 
                 <div style="display: flex; justify-content: center; padding: 20px;">
 
-                    <button id="send-button" onclick="smsSend()">Начать рассылку</button>
+                    <button id="send-button">Начать рассылку</button>
 
                 </div>
 
@@ -192,6 +192,8 @@
     $('.dataTables_length').addClass('bs-select');
   });
 </script>
+
+<script src="/js/sms.js"></script>
 
 </body>
 </html>
