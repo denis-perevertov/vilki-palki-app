@@ -14,97 +14,18 @@
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item align-self-center" style="cursor: initial; caret-color: transparent">
+            <li id="profile" class="nav-item align-self-center" style="cursor: initial; caret-color: transparent">
                 <i class="fa-solid fa-user nav-icon"></i>
-                <p style="cursor: initial;" class="d-inline ml-1 text-bold">
+                <p class="d-inline ml-1 text-bold">
                     Администратор
                 </p>
-            </li>
-            <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-comments"></i>
-                    <span class="badge badge-danger navbar-badge">3</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    Brad Diesel
-                                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">Call me whenever you can...</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    John Pierce
-                                    <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">I got your message bro</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    Nora Silvester
-                                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">The subject goes here</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                <div class="logout">
+                    <a href="/logout">Выйти из аккаунта</a>
                 </div>
             </li>
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">15</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-users mr-2"></i> 8 friend requests
-                        <span class="float-right text-muted text-sm">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-file mr-2"></i> 3 new reports
-                        <span class="float-right text-muted text-sm">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                </div>
-            </li>
+
+
+
             <li class="nav-item">
                 <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                     <i class="fas fa-expand-arrows-alt"></i>
@@ -112,9 +33,48 @@
             </li>
 
         </ul>
+
+    <style>
+        #profile {
+            caret-color: transparent;
+            cursor: pointer;
+            margin-right: 20px;
+            position: relative;
+        }
+
+        #profile > * {
+            cursor: pointer;
+        }
+
+        #profile:hover {
+            color: purple;
+            transition: color 0.3s;
+        }
+
+        .logout {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid gray;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            text-align: center;
+        }
+
+        #profile:hover .logout, .logout:hover logout {
+            display: block;
+            opacity: 1;
+        }
+    </style>
     </nav>
 <aside th:fragment="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="#" class="brand-link">
+        <a href="/admin" class="brand-link">
             <img th:src="@{/images/logo-vilki-palki.png}" alt="AdminLTE Logo" class="rounded p-10 w-100 mx-auto d-block">
         </a>
 
@@ -195,7 +155,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/orders" class="nav-link">
+                                <a href="/admin/orders/history" class="nav-link">
                                     <i class="far fa-sm fa-circle pl-2 mr-3"></i>
                                     <p>История заказов</p>
                                 </a>
@@ -217,6 +177,12 @@
                                 <a href="/admin/items" class="nav-link">
                                     <i class="far fa-sm fa-circle pl-2 mr-3"></i>
                                     <p>Все товары</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/items/ingredients" class="nav-link">
+                                    <i class="fa-solid fa-burger pl-2 mr-3"></i>
+                                    <p>Ингредиенты</p>
                                 </a>
                             </li>
                             <li class="nav-item">

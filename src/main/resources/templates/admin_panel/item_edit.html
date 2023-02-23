@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard 3</title>
+  <title>Вилки Палки - Админка</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="/css/fontawesome/all.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
   <link rel="stylesheet" href="/css/user-edit.css">
+  <link rel="stylesheet" href="/css/modal.css">
   <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
 </head>
 
@@ -27,7 +28,10 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-bold text-blue text-maroon">Редактировать товар</h1>
-          </div>          
+          </div>
+          <div th:if="${item != null}" class="col-sm-6 delete-button">
+            <a th:href="${item.id} + '/delete'"><button type="button">-   Удалить</button></a>
+          </div>
         </div>
       </div>
     </div>
@@ -44,13 +48,15 @@
           <div class="item-data-row">
 
             <div class="item-picture">
-              <img th:src="@{/images/photo.jpg}" id="image_container" onclick="addPhoto()" alt="">
+              <img onerror="this.onerror=null; this.src='/images/placeholder.jpg';"
+                   th:src="@{/images/{url}(url=${item.pictureFileName})}"
+                   id="image_container" onclick="addPhoto()" alt="">
               <span class="add-photo">+ Добавить фото</span>
               <input type="file" accept="image/*" name="picture" id="file_input" onchange="showPhoto(this)" style="display: none">
             </div>
 
             <div class="item-description">
-              <div class="item-description-row"><span>Имя</span><input type="text" th:value="${item.name}" id=""></div>
+              <div class="item-description-row"><span>Имя</span><input type="text" name="name" th:value="${item.name}" id=""></div>
               <div class="item-description-row"><span>Цена</span><input type="text" th:value="${item.price}" name="price" id=""></div>
               <div class="item-description-row"><span>Жиры</span><input type="text" th:value="${item.fats}" name="fats" id=""></div>
               <div class="item-description-row"><span>Углеводы</span><input type="text" th:value="${item.carbons}" name="carbons" id=""></div>
@@ -60,8 +66,12 @@
 
               <div class="item-description-row">
                 <span>Категория</span>
-                <select th:text="${item.category_id.name}" name="category" id="category">
-                  <option th:each="category : ${categories}" th:value="${category.name}"><span th:text="${category.name}">I</span></option>
+                <select name="item_category" id="category">
+                  <option th:each="category : ${categories}"
+                          th:value="${category.name}"
+                          th:text="${category.name}"
+                          th:selected="${category.name.equalsIgnoreCase(item.category.name)}">
+                  </option>
                 </select>
               </div>
             </div>
@@ -74,19 +84,41 @@
           </div>
 
           <h4>Состав</h4>
-
           <div class="ingredients">
-            <div class="ingredient"></div>
-            <div class="plus">Добавить</div>
+            <div class="plus">+</div>
+            <div th:each="ingr : ${item_ingredients}" onclick="removeFromList(this)" class="ingredient">
+              <img th:src="@{/images/ingredients/{icon}(icon=${ingr.icon})}" alt="" class="icon">
+              <p th:text="${ingr.name}"></p>
+              <input type="text" name="ingredients" style="display: none;" th:value="${ingr.id}">
+            </div>
           </div>
 
           <div class="submit-button">
-            <a href="#"><button type="submit">+   Сохранить</button></a>
+            <a href="admin/items"><button type="submit">+   Сохранить</button></a>
           </div>
 
         </div>
 
         </form>
+
+        <div id="myModal" class="mod">
+
+          <!-- Modal content -->
+          <div class="mod-cont">
+            <div class="mod-head">
+              <h2 style="display: inline-block">Выбрать ингредиенты</h2>
+              <span class="close">&times;</span>
+            </div>
+            <div class="mod-b">
+              <div class="ingredient" th:each="ingr : ${ingredients}">
+                <img th:src="@{/images/ingredients/{id}/{icon}(id=${ingr.id}, icon=${ingr.icon})}" alt="" class="icon">
+                <p th:text="${ingr.name}"></p>
+                <input type="text" name="ingredients" style="display: none;" th:value="${ingr.id}">
+              </div>
+            </div>
+          </div>
+
+        </div>
 
 
       </div>
@@ -97,6 +129,14 @@
 
 
 </div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/adminlte.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/pages/dashboard3.js"></script>
+<script src="/js/modal2.js"></script>
+
 
 <script>
 
@@ -113,12 +153,6 @@
   }
 
 </script>
-
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/adminlte.js"></script>
-<script src="/js/Chart.min.js"></script>
-<script src="/js/pages/dashboard3.js"></script>
 
 
 </body>

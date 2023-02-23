@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard 3</title>
+  <title>Вилки Палки - Админка</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="/css/fontawesome/all.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
   <link rel="stylesheet" href="/css/user-edit.css">
+  <link rel="stylesheet" href="/css/modal.css">
   <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
 </head>
 
@@ -36,6 +37,7 @@
       <div class="container-fluid">
 
         <span style="font-weight: bold; font-size: 24px; color: green; margin-bottom: 10px" th:text="${success_message}"></span>
+        <span style="font-weight: bold; font-size: 16px; color: red; margin-bottom: 10px" th:text="${fail_message}"></span>
 
         <form method="post" enctype="multipart/form-data" th:object="${item}">
         
@@ -60,7 +62,7 @@
 
               <div class="item-description-row">
                 <span>Категория</span>
-                <select name="category" id="category">
+                <select name="item_category" id="category">
                   <option th:each="category : ${categories}" th:value="${category.name}"><span th:text="${category.name}">I</span></option>
                 </select>
               </div>
@@ -76,12 +78,31 @@
           <h4>Состав</h4>
 
           <div class="ingredients">
-            <div class="ingredient"></div>
-            <div class="plus">Добавить</div>
+            <div class="plus">+</div>
           </div>
 
           <div class="submit-button">
             <a href="#"><button type="submit">+   Сохранить</button></a>
+          </div>
+
+          <div id="myModal" class="mod">
+
+            <!-- Modal content -->
+            <div class="mod-cont">
+              <div class="mod-head">
+                <h2 style="display: inline-block">Выбрать ингредиенты</h2>
+                <span class="close">&times;</span>
+              </div>
+              <div class="mod-b">
+                <div class="ingredient" th:each="ingr : ${ingredients}">
+                  <img th:src="@{/images/ingredients/{icon}(icon=${ingr.icon}}" alt="" class="icon">
+                  <p th:text="${ingr.name}"></p>
+                  <input type="text" name="selected_ingredients" style="display: none;" th:value="${ingr.id}">
+                </div>
+                <div class="plus">+</div>
+              </div>
+            </div>
+
           </div>
 
         </div>
@@ -97,6 +118,14 @@
 
 
 </div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/adminlte.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/pages/dashboard3.js"></script>
+<script src="/js/modal2.js"></script>
+
 
 <script>
 
@@ -114,11 +143,6 @@
 
 </script>
 
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/adminlte.js"></script>
-<script src="/js/Chart.min.js"></script>
-<script src="/js/pages/dashboard3.js"></script>
 
 
 </body>

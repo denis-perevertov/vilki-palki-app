@@ -1,90 +1,199 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard 3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вилки Палки - Админка</title>
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
-  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="/css/sms.css">
+    <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
 
 <div class="wrapper">
 
-  <nav th:insert="~{header-sidebar :: header}"></nav>
-  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+    <nav th:insert="~{header-sidebar :: header}"></nav>
+    <aside th:insert="~{header-sidebar :: sidebar}"></aside>
 
-  <div class="content-wrapper">
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-bold text-blue text-maroon">Рассылка SMS</h1>
-          </div>          
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-bold text-blue text-maroon">Рассылка SMS</h1>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="content">
+            <div class="container-fluid">
+
+                <div id="myModal" class="mod">
+
+                    <!-- Modal content -->
+                    <div class="mod-cont">
+                        <div class="mod-head">
+                            <h2 style="display: inline-block">Выбрать пользователей</h2>
+
+                            <span class="close">&times;</span>
+                        </div>
+                        <div class="mod-b">
+                            <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="th-sm">ID
+
+                                        </th>
+                                        <th class="th-sm">Имя
+
+                                        </th>
+                                        <th class="th-sm">Почта
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="user : ${users}">
+                                        <td><input type="checkbox" th:attr="data-userid=${user.id}" class="checkbox" name="" id=""></td>
+                                        <td th:text="${user.id}"></td>
+                                        <td th:text="${user.name}"></td>
+                                        <td th:text="${user.email}"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>
+                                            
+                                        </th>
+                                        <th>ID
+                                        </th>
+                                        <th>Имя
+                                        </th>
+                                        <th>Почта
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="mod-foot">
+                            <button id="save_users" type="button">Сохранить выбор</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <p style="font-weight: bold">Выбрать пользователей</p>
+
+                    <div>
+                        <input type="radio" name="users_sms" id="all_users_sms" checked onclick="disable()">
+                        <label for="all_users_sms">Все пользователи</label></div>
+                    <div>
+                        <input type="radio" name="users_sms" id="random_users_sms" value="2" onclick="enable()">
+                        <label for="random_users_sms">Выборочно</label>
+                    </div>
+                    <button class="myBtn" type="button" id="users_check" disabled>Выбрать пользователей</button>
+                </div>
+
+                <div class="row">
+
+                    <p style="font-weight: bold">Текст SMS</p>
+
+                </div>
+
+
+                <div class="row">
+
+                    <textarea name="sms_text" id="sms_text" cols="70" rows="10" placeholder="Введите текст"></textarea>
+                    <div>
+                        <p style="font-weight: bold" id="sms_count">Кол-во SMS: </p>
+                        <p style="font-weight: bold" id="send_percent">Рассылка выполнена на: 100%</p>
+                    </div>
+
+                </div>
+
+                <div style="display: flex; justify-content: center; padding: 20px;">
+
+                    <button id="send-button">Начать рассылку</button>
+
+                </div>
+
+
+            </div>
+        </div>
     </div>
 
-    <div class="content">
-      <div class="container-fluid">
-        
-        <div class="row">
-          <p style="font-weight: bold">Выбрать пользователей</p>
+    <script>
+    function enable() {
+      let btn = document.getElementById('users_check');
+      btn.disabled = false;
+    }
 
-          <div>
-              <input type="radio" name="users_sms" id="all_users_sms" checked onclick="disable()">
-              <label for="all_users_sms">Все пользователи</label></div>
-          <div>
-              <input type="radio" name="users_sms" id="random_users_sms" value="2" onclick="enable()">
-              <label for="random_users_sms">Выборочно</label>
-          </div>
-          <form action="/sms/users" method="get">
-              <button type="submit" id="users_check" disabled>Выбрать пользователей</button>
-          </form>
-      </div>
+    function disable() {
+      let btn = document.getElementById('users_check');
+      btn.disabled = true;
+    }
 
-      <div class="row">
+    // Get the modal
+    var modal = document.getElementById("myModal");
 
-          <p style="font-weight: bold">Текст SMS</p>
+    var btn = document.getElementById("users_check");
 
-      </div>
+    var span = document.getElementsByClassName("close")[0];
 
+    btn.onclick = function() {
+      modal.style.display = "block";
+      modal.style.opacity = 1;
+    }
 
-      <div class="row">
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
 
-          <textarea name="sms_text" id="sms_text" cols="70" rows="10" placeholder="Введите текст"></textarea>
-          <div>
-              <p style="font-weight: bold" id="sms_count">Кол-во SMS: </p>
-              <p style="font-weight: bold" id="send_percent">Рассылка выполнена на: </p>
-          </div>
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
 
-      </div>
-
-      <div style="display: flex; justify-content: center; padding: 20px;">
-
-          <button onclick="smsSend()">Начать рассылку</button>
-
-      </div>
-
-
-      </div>
-    </div>
-  </div>
+    document.getElementById('save_users').addEventListener('click', function() {
+        modal.style.display = "none";
+    });
+  </script>
 
 
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.2.0/js/dataTables.dateTime.min.js"></script>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/dataTables.bootstrap4.min.js"></script>
+<script src="/js/dataTables.responsive.min.js"></script>
+<script src="/js/responsive.bootstrap4.min.js"></script>
+<script src="/js/dataTables.buttons.min.js"></script>
+<script src="/js/buttons.bootstrap4.min.js"></script>
+<script src="/js/dashboard3.js"></script>
 <script src="/js/adminlte.js"></script>
-<script src="/js/Chart.min.js"></script>
-<script src="/js/pages/dashboard3.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#dtBasicExample').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+  });
+</script>
+
+<script src="/js/sms.js"></script>
 
 </body>
 </html>

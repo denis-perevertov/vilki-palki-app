@@ -156,19 +156,66 @@ p {
     border-radius: 10px;
 }
 
-#submit-button {
-    background-color: green;
+#submit-button, #delete-button {
     color: white;
     font-weight: bold;
-}
-
-#submit-button:hover {
-    background-color: rgb(4, 202, 4);
     transition: background-color 0.2s;
 }
 
-#submit-button:active {
-    background-color: rgb(184, 237, 184);
-    transition: 0s;
-    
+#submit-button {background-color: green}
+#delete-button {background-color: red}
+
+#submit-button:hover {background-color: rgb(4, 202, 4)}
+#delete-button:hover {background-color: rgb(230, 0, 0)}
+
+#submit-button:active {background-color: rgb(184, 237, 184)}
+#delete-button:active {background-color: rgb(200, 0, 0)}
+
+input[type="date"] {
+    caret-color: transparent;
 }
+
+.back_button {
+    margin-top: 10px;
+    border: 0.5px solid silver;
+    border-radius: 20px;
+    padding-block: 10px;
+    padding-inline: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Segoe UI';
+    color: #007bff;
+}
+
+.back_button:hover {
+    background-color: lightgray;
+}
+
+.back_button:active {
+    background-color: black;
+    color: white;
+}
+
+.add-button {
+    border: 1px solid silver;
+    margin-bottom: 20px;
+}
+
+.add-button:hover {
+    background-color: lightgray;
+}
+
+.add-button:active {
+    background-color: black;
+    color: white;
+}
+
+.ingr-table {
+    width: 55%;
+}
+
+.ingr-table img {
+    max-width: 180px;
+    max-height: 180px;
+}
+

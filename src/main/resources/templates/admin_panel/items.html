@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard 3</title>
+  <title>Вилки Палки - Админка</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="/css/fontawesome/all.min.css">
@@ -38,6 +38,7 @@
         <div class="categories">
 
           <div class="category" th:each="category : ${categories}" href="#" >
+            <span style="display: none" th:text="${category.id}"></span>
             <img th:src="@{/images/categories/{id}/{name}(id=${category.id},name=${category.iconFileName})}" alt="">
             <p th:text="${category.name}"></p>
           </div>
@@ -62,37 +63,6 @@
   <script src="/js/items.js"></script>
 
 
-  <script>
-    var list = document.getElementsByTagName('aside')[0]
-                      .getElementsByTagName('nav')[0]
-                      .getElementsByClassName('nav-item');
-    
-    console.log(list);
-
-    for(i = 0; i < list.length; i++) {
-      let nav_item = list[i];
-      let turn_icon = nav_item.getElementsByTagName('i')[1];
-      nav_item.addEventListener('click', function() {
-        turn_icon.classList.toggle('turn-icon')
-        
-      })
-    };
-
-  </script>
-
-  <style>
-    
-    .fa-angle-right {
-      transition: transform .2s ease;
-      transform: rotate(0);
-    }
-    
-    .turn-icon {
-      transform: rotateZ(90deg);
-      transition: transform 0.2s;
-    }
-    
-  </style>
 
 </div>
 
