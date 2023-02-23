@@ -23,9 +23,9 @@ public class ItemServiceTest {
     private ItemService itemService;
 
     @MockBean
-    private  MenuItemRepository itemRepo;
+    private MenuItemRepository itemRepo;
     @MockBean
-    private  CategoryRepository categoryRepo;
+    private CategoryRepository categoryRepo;
 
     @BeforeAll
     public static void init() {

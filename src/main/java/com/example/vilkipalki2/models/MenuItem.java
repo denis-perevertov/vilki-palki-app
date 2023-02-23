@@ -38,7 +38,9 @@ public class MenuItem {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id")
+    @JoinTable(name="category_items",
+            joinColumns={@JoinColumn(name="item_id")},
+            inverseJoinColumns={@JoinColumn(name="Category_id")})
     @JsonBackReference(value = "category_reference")
     private Category category;
 

@@ -66,7 +66,7 @@
 
               <div class="item-description-row">
                 <span>Категория</span>
-                <select name="category" id="category">
+                <select name="item_category" id="category">
                   <option th:each="category : ${categories}"
                           th:value="${category.name}"
                           th:text="${category.name}"
@@ -113,8 +113,8 @@
               <div class="ingredient" th:each="ingr : ${ingredients}">
                 <img th:src="@{/images/ingredients/{id}/{icon}(id=${ingr.id}, icon=${ingr.icon})}" alt="" class="icon">
                 <p th:text="${ingr.name}"></p>
+                <input type="text" name="ingredients" style="display: none;" th:value="${ingr.id}">
               </div>
-              <div class="plus" onclick="newIngredient(this)">+</div>
             </div>
           </div>
 

@@ -37,6 +37,7 @@
       <div class="container-fluid">
 
         <span style="font-weight: bold; font-size: 24px; color: green; margin-bottom: 10px" th:text="${success_message}"></span>
+        <span style="font-weight: bold; font-size: 16px; color: red; margin-bottom: 10px" th:text="${fail_message}"></span>
 
         <form method="post" enctype="multipart/form-data" th:object="${item}">
         
@@ -61,7 +62,7 @@
 
               <div class="item-description-row">
                 <span>Категория</span>
-                <select name="category" id="category">
+                <select name="item_category" id="category">
                   <option th:each="category : ${categories}" th:value="${category.name}"><span th:text="${category.name}">I</span></option>
                 </select>
               </div>
@@ -77,7 +78,6 @@
           <h4>Состав</h4>
 
           <div class="ingredients">
-            <div class="ingredient"></div>
             <div class="plus">+</div>
           </div>
 
@@ -95,8 +95,9 @@
               </div>
               <div class="mod-b">
                 <div class="ingredient" th:each="ingr : ${ingredients}">
-                  <img th:src="@{/images/ingredients/{id}/{icon}(id=${ingr.id}), icon=${ingr.icon}}" alt="" class="icon">
+                  <img th:src="@{/images/ingredients/{icon}(icon=${ingr.icon}}" alt="" class="icon">
                   <p th:text="${ingr.name}"></p>
+                  <input type="text" name="selected_ingredients" style="display: none;" th:value="${ingr.id}">
                 </div>
                 <div class="plus">+</div>
               </div>

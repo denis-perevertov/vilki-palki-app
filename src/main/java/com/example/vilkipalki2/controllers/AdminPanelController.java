@@ -42,6 +42,16 @@ public class AdminPanelController {
 
     @GetMapping
     public String showStatsPage(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("orders", orderService.getAllOrders());
+        model.addAttribute("items", itemService.getAllItems());
+
+        LocalDate now = LocalDate.now();
+        LocalDate beginningOfTheMonth = LocalDate.of(now.getYear(), now.getMonth(), 1);
+
+        model.addAttribute("now", now);
+        model.addAttribute("month_start", beginningOfTheMonth);
+
         return "admin_panel/stats";
     }
 
@@ -232,26 +242,60 @@ public class AdminPanelController {
         model.addAttribute("categories", categoryList);
 
         Iterable<Ingredient> ingredientsList = ingredientService.getAllIngredients();
+        System.out.println(ingredientsList.toString());
         model.addAttribute("ingredients", ingredientsList);
         return "admin_panel/add_item";
     }
 
     @PostMapping("/items/add-item")
     public String addItem(@ModelAttribute MenuItem item,
-                          @RequestParam(required = false) String category,
+                          BindingResult result,
+                          @RequestParam(required = false) String item_category,
                           @RequestParam(required = false) MultipartFile picture,
+                          @RequestParam(required = false) String[] selected_ingredients,
                           RedirectAttributes redirAttrs,
                           Model model) {
 
+        System.out.println("START METHOD");
+        item.setIngredients(new ArrayList<>());
+
         try {
-            item.setCategory(itemService.getSingleCategoryByName(category));
+            Category category = itemService.getSingleCategoryByName(item_category);
+            item.setCategory(category);
+            category.getItemList().add(item);
 
             if(!picture.isEmpty() && picture.getOriginalFilename() != null) {
                 item.setPictureFileName(picture.getOriginalFilename());
                 FileUploadUtil.saveFile(imageUploadDirectory, picture.getOriginalFilename(), picture);
             }
 
+            if(selected_ingredients != null) {
+                for(String ingrId : selected_ingredients) System.out.println(ingrId);
+            }
+
+//            List<Ingredient> ingrList = new ArrayList<>();
+//
+//            if(ingredients != null) {
+//                Map<Long, Ingredient> map = new HashMap<>();
+//                for(String ingredientId : ingredients) {
+//                    long id = Long.parseLong(ingredientId);
+//                    log.info("id of ingr: " + id);
+//                    Ingredient ingredientToSave = ingredientService.getSingleIngredientById(id);
+//                    log.info("ingr: " + ingredientToSave);
+//
+//                    map.putIfAbsent(id, ingredientToSave);
+//                    map.put(id, ingredientToSave);
+//                    System.out.println(map.values());
+//
+//                }
+//                System.out.println(map.values());
+//                ingrList.addAll(map.values());
+//            }
+//
+//            item.setIngredients(ingrList);
+
             MenuItem savedItem = itemService.saveItem(item);
+            itemService.saveCategory(category);
 
             redirAttrs.addFlashAttribute("success_message",
                     "Успешно добавили новый предмет: " + savedItem.getName() + "(id=" + savedItem.getId() + ")");
@@ -281,12 +325,12 @@ public class AdminPanelController {
         return "admin_panel/item_edit";
     }
 
-    //todo ругается на категории
     @PostMapping("/items/{item_id}")
     public String editItem(@ModelAttribute MenuItem item,
+                          BindingResult result,
                           @PathVariable long item_id,
-                          @RequestParam(required = false) String category,
-                          @RequestParam MultipartFile picture,
+                          @RequestParam(required = false) String item_category,
+                          @RequestParam(required = false) MultipartFile picture,
                           @RequestParam(required = false) String[] ingredients,
                           RedirectAttributes redirAttrs,
                           Model model) throws IOException {
@@ -295,7 +339,8 @@ public class AdminPanelController {
         item.setPictureFileName(pictureFromDBName);
 
         item.setId(item_id);
-        item.setCategory(itemService.getSingleCategoryByName(category));
+        Category category = itemService.getSingleCategoryByName(item_category);
+        item.setCategory(category);
 
         if(!picture.isEmpty() && picture.getOriginalFilename() != null) {
             item.setPictureFileName(picture.getOriginalFilename());

@@ -33,19 +33,66 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
+          <div class="col-lg-6 mb-2">
+            С: <input type="date" th:value="${month_start}" style="margin-right: 20px;" name="" id="date_from">
+            До: <input type="date" th:value="${now}" name="" id="date_to">
+            <br>
+          </div>
+          <div class="col-lg-6">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-6">
+            <div class="small-box bg-info">
+            <div class="inner">
+              <h3 id="user_count"></h3>
+              <p>Новых пользователей</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="admin/users" class="small-box-footer">Список пользователей <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+          </div>
+          <div class="col-lg-4 col-6">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3 id="order_count"></h3>
+                <p>Новых заказов</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+              <a href="admin/orders" class="small-box-footer">Список заказов <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 id="item_count"></h3>
+                <p>Новых товаров</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+              <a href="admin/items" class="small-box-footer">Список товаров <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-6">
             <div class="card">
               <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Online Store Visitors</h3>
-                  <a href="javascript:void(0);">View Report</a>
+                  <h3 class="card-title">Зарегистрированные пользователи</h3>
                 </div>
               </div>
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
-                    <span>Visitors Over Time</span>
+                    <span class="text-bold text-lg" th:text="${users.size()}">820</span>
+                    <span>Новых пользователей</span>
                   </p>
                   <p class="ml-auto d-flex flex-column text-right">
                     <span class="text-success">
@@ -75,7 +122,7 @@
 
             <div class="card">
               <div class="card-header border-0">
-                <h3 class="card-title">Products</h3>
+                <h3 class="card-title">Текущие заказы</h3>
                 <div class="card-tools">
                   <a href="#" class="btn btn-tool btn-sm">
                     <i class="fas fa-download"></i>
@@ -89,90 +136,24 @@
                 <table class="table table-striped table-valign-middle">
                   <thead>
                   <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Sales</th>
-                    <th>More</th>
+                    <th>ID</th>
+                    <th>Адрес</th>
+                    <th>Цена</th>
+                    <th>Детали</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
+                  <tr th:each="order: ${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.address}"></td>
+                    <td>1000</td>
                     <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Some Product
-                    </td>
-                    <td>$13 USD</td>
-                    <td>
-                      <small class="text-success mr-1">
-                        <i class="fas fa-arrow-up"></i>
-                        12%
-                      </small>
-                      12,000 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
+                      <a href="admin/orders" class="text-muted">
                         <i class="fas fa-search"></i>
                       </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Another Product
-                    </td>
-                    <td>$29 USD</td>
-                    <td>
-                      <small class="text-warning mr-1">
-                        <i class="fas fa-arrow-down"></i>
-                        0.5%
-                      </small>
-                      123,234 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Amazing Product
-                    </td>
-                    <td>$1,230 USD</td>
-                    <td>
-                      <small class="text-danger mr-1">
-                        <i class="fas fa-arrow-down"></i>
-                        3%
-                      </small>
-                      198 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Perfect Item
-                      <span class="badge bg-danger">NEW</span>
-                    </td>
-                    <td>$199 USD</td>
-                    <td>
-                      <small class="text-success mr-1">
-                        <i class="fas fa-arrow-up"></i>
-                        63%
-                      </small>
-                      87 Sold
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
-                      </a>
-                    </td>
-                  </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -184,15 +165,14 @@
             <div class="card">
               <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Sales</h3>
-                  <a href="javascript:void(0);">View Report</a>
+                  <h3 class="card-title">Продажи</h3>
                 </div>
               </div>
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
                     <span class="text-bold text-lg">$18,230.00</span>
-                    <span>Sales Over Time</span>
+                    <span>Общая сумма продаж</span>
                   </p>
                   <p class="ml-auto d-flex flex-column text-right">
                     <span class="text-success">
@@ -222,53 +202,40 @@
 
             <div class="card">
               <div class="card-header border-0">
-                <h3 class="card-title">Online Store Overview</h3>
+                <h3 class="card-title">Товары</h3>
                 <div class="card-tools">
-                  <a href="#" class="btn btn-sm btn-tool">
+                  <a href="#" class="btn btn-tool btn-sm">
                     <i class="fas fa-download"></i>
                   </a>
-                  <a href="#" class="btn btn-sm btn-tool">
+                  <a href="#" class="btn btn-tool btn-sm">
                     <i class="fas fa-bars"></i>
                   </a>
                 </div>
               </div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                  <p class="text-success text-xl">
-                    <i class="ion ion-ios-refresh-empty"></i>
-                  </p>
-                  <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-up text-success"></i> 12%
-                    </span>
-                    <span class="text-muted">CONVERSION RATE</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                  <p class="text-warning text-xl">
-                    <i class="ion ion-ios-cart-outline"></i>
-                  </p>
-                  <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-up text-warning"></i> 0.8%
-                    </span>
-                    <span class="text-muted">SALES RATE</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-                <div class="d-flex justify-content-between align-items-center mb-0">
-                  <p class="text-danger text-xl">
-                    <i class="ion ion-ios-people-outline"></i>
-                  </p>
-                  <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-down text-danger"></i> 1%
-                    </span>
-                    <span class="text-muted">REGISTRATION RATE</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Детали</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="item : ${items}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td>
+                      <a th:href="'admin/items/' + ${item.id}" class="text-muted">
+                        <i class="fas fa-search"></i>
+                      </a>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -289,6 +256,29 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/adminlte.js"></script>
 <script src="/js/Chart.min.js"></script>
-<script src="/js/pages/dashboard3.js"></script>
+<script src="/js/dashboard3.js"></script>
+
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+  $(document).ready(function() {
+
+    let user_list = /*[[${users}]]*/ [];
+    let order_list = /*[[${orders}]]*/ [];
+    let item_list = /*[[${items}]]*/ [];
+
+    $("#user_count").text(user_list.length);
+    $("#order_count").text(order_list.length);
+    $("#item_count").text(item_list.length);
+
+    console.log($("#date_from").val());
+    console.log($("#date_to").val());
+
+  });
+
+/*]]>*/
+</script>
+
 </body>
 </html>

@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name="ingredients")
 @Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
-public class Ingredient {
+public class Ingredient implements Cloneable {
 
     @Id
     @SequenceGenerator(name="ingr_generator", initialValue = 1, allocationSize = 1)
@@ -29,4 +29,15 @@ public class Ingredient {
     @ManyToMany(mappedBy = "ingredients")
     @ToString.Exclude
     private List<MenuItem> itemList;
+
+    @Override
+    public Ingredient clone() {
+        try {
+            Ingredient clone = (Ingredient) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
