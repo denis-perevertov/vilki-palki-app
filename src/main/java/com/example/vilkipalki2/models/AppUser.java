@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -42,6 +43,8 @@ public class AppUser {
     private String email;
     private String password;
     private int bonus;
+
+    private LocalDate creationDate = LocalDate.of(2022, 1, 1);
 
     @ElementCollection
     private List<Order> orderList;
@@ -84,6 +87,17 @@ public class AppUser {
         this.orderList = new ArrayList<>();
         this.addressList = new ArrayList<>();
         this.favoriteItemsList = new ArrayList<>();
+    }
+
+    public AppUser(AppUserRole role, Language language, Gender gender, String name, String phone, LocalDate birthdate, String email, LocalDate creationDate) {
+        this.role = role;
+        this.language = language;
+        this.gender = gender;
+        this.name = name;
+        this.phone = phone;
+        this.birthdate = birthdate;
+        this.email = email;
+        this.creationDate = creationDate;
     }
 
     public void addBonus(int bonusToAdd) {

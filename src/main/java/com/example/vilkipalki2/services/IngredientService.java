@@ -1,6 +1,6 @@
 package com.example.vilkipalki2.services;
 
-import com.example.vilkipalki2.exception.ItemNotFoundException;
+import com.example.vilkipalki2.controllers.exception.ItemNotFoundException;
 import com.example.vilkipalki2.models.Ingredient;
 import com.example.vilkipalki2.repos.IngredientRepository;
 import lombok.RequiredArgsConstructor;

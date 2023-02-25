@@ -1,4 +1,4 @@
-package com.example.vilkipalki2.exception;
+package com.example.vilkipalki2.controllers.exception;
 
 public class OrderNotFoundException extends RuntimeException {
 

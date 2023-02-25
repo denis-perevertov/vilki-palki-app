@@ -68,7 +68,7 @@ class RepositoriesTest {
     void findUserEmailByUserId() {
         String email = "test@gmail.com";
         AppUser user = new AppUser();
-        user.setId(1);
+        user.setId(0);
         user.setEmail(email);
 
         userRepository.save(user);

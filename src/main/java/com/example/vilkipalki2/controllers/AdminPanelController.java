@@ -47,7 +47,7 @@ public class AdminPanelController {
         model.addAttribute("items", itemService.getAllItems());
 
         LocalDate now = LocalDate.now();
-        LocalDate beginningOfTheMonth = LocalDate.of(now.getYear(), now.getMonth(), 1);
+        LocalDate beginningOfTheMonth = LocalDate.of(2019, 1, 1);
 
         model.addAttribute("now", now);
         model.addAttribute("month_start", beginningOfTheMonth);

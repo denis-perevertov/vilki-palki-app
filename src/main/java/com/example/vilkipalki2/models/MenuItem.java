@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -35,6 +36,8 @@ public class MenuItem {
     private String description;
 
     private String pictureFileName;
+
+    private LocalDate creationDate = LocalDate.of(2022, 1, 1);
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -77,6 +80,16 @@ public class MenuItem {
         this.price = price;
     }
 
-
-
+    public MenuItem(String name, int price, int weight, int fats, int proteins, int carbons, int calories, String description, LocalDate creationDate, Category category) {
+        this.name = name;
+        this.price = price;
+        this.weight = weight;
+        this.fats = fats;
+        this.proteins = proteins;
+        this.carbons = carbons;
+        this.calories = calories;
+        this.description = description;
+        this.creationDate = creationDate;
+        this.category = category;
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.vilkipalki2.service;
 
 import com.example.vilkipalki2.TestConfig;
-import com.example.vilkipalki2.exception.OrderNotFoundException;
+import com.example.vilkipalki2.controllers.exception.OrderNotFoundException;
 import com.example.vilkipalki2.models.Address;
 import com.example.vilkipalki2.models.AppUser;
 import com.example.vilkipalki2.models.MenuItem;
@@ -10,9 +10,7 @@ import com.example.vilkipalki2.repos.AppUserRepository;
 import com.example.vilkipalki2.repos.MenuItemRepository;
 import com.example.vilkipalki2.repos.OrderRepository;
 import com.example.vilkipalki2.services.OrderService;
-import com.example.vilkipalki2.services.UserService;
 import com.example.vilkipalki2.util.OrderStatus;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -47,6 +45,7 @@ public class OrderServiceTest {
     @Test
     public void throwsExceptionWhenOrderNotFound() {
         assertThatThrownBy(() -> orderService.findOrder(1)).hasMessageContaining("Order not found");
+        assertThatThrownBy(() -> orderService.findOrder(1)).isInstanceOf(OrderNotFoundException.class);
     }
 
     @Test
