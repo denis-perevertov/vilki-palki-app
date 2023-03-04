@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="ingredients")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Ingredient implements Cloneable {
 
     @Id
@@ -26,7 +26,7 @@ public class Ingredient implements Cloneable {
 
     private String icon;
 
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<MenuItem> itemList;
 

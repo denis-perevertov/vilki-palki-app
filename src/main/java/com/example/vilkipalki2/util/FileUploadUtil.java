@@ -1,5 +1,6 @@
 package com.example.vilkipalki2.util;
 
+import com.example.vilkipalki2.controllers.AdminPanelController;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,9 @@ public class FileUploadUtil {
 
     public static void saveFile(String uploadDir, String fileName,
                                 MultipartFile multipartFile) throws IOException {
+        System.out.println(AdminPanelController.imageUploadDirectory);
+        System.out.println(uploadDir);
+
         Path uploadPath = Paths.get(uploadDir);
 
         if (!Files.exists(uploadPath)) {

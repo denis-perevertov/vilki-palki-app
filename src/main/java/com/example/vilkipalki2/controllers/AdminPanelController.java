@@ -6,7 +6,7 @@ import com.example.vilkipalki2.services.IngredientService;
 import com.example.vilkipalki2.services.ItemService;
 import com.example.vilkipalki2.services.OrderService;
 import com.example.vilkipalki2.services.UserService;
-import com.example.vilkipalki2.services.email.BannerService;
+import com.example.vilkipalki2.services.BannerService;
 import com.example.vilkipalki2.util.FileUploadUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -36,18 +38,26 @@ public class AdminPanelController {
     private final IngredientService ingredientService;
     private final BannerService bannerService;
 
-    private static final String imageUploadDirectory = "src/main/resources/static/images/";
+    public static final String imageUploadDirectory = "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/vilkipalki/WEB-INF/classes/static/images";
 
     // ----------------- СТАТИСТИКА ----------------- //
 
     @GetMapping
     public String showStatsPage(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("orders", orderService.getAllOrders());
-        model.addAttribute("items", itemService.getAllItems());
+
+        List<AppUser> userList = userService.getAllUsers();
+
+        List<LocalDate> datesList = userList.stream().map(AppUser::getCreationDate).toList();
+
+        List<Order> orderList = orderService.getAllOrders();
 
         LocalDate now = LocalDate.now();
         LocalDate beginningOfTheMonth = LocalDate.of(2019, 1, 1);
+
+        model.addAttribute("users", userList);
+        model.addAttribute("usersDates", datesList);
+        model.addAttribute("orders", orderList);
+        model.addAttribute("items", itemService.getAllItems());
 
         model.addAttribute("now", now);
         model.addAttribute("month_start", beginningOfTheMonth);
@@ -99,6 +109,13 @@ public class AdminPanelController {
 
         redirAttrs.addFlashAttribute("success_message", info);
 
+        return "redirect:/admin/banners";
+    }
+
+    @PostMapping("/banners/delete")
+    public String deleteBanner(@RequestParam int id) {
+        System.out.println("start method delete");
+        bannerService.deleteBanner(id);
         return "redirect:/admin/banners";
     }
 
@@ -157,6 +174,12 @@ public class AdminPanelController {
         model.addAttribute("orders", orderService.getAllOrders());
         model.addAttribute("now", LocalDate.now());
         return "admin_panel/order_history";
+    }
+
+    @GetMapping("/orders/{id}")
+    public String showOrderInfo(@PathVariable long id, Model model) {
+        model.addAttribute("order", orderService.findOrder(id));
+        return "admin_panel/order_info";
     }
 
     // ----------------- ЗАКАЗЫ ----------------- //
@@ -270,29 +293,11 @@ public class AdminPanelController {
             }
 
             if(selected_ingredients != null) {
-                for(String ingrId : selected_ingredients) System.out.println(ingrId);
+                for(String ingrId : selected_ingredients) {
+                    Ingredient ingredient = ingredientService.getSingleIngredientById(Long.parseLong(ingrId));
+                    item.getIngredients().add(ingredient);
+                }
             }
-
-//            List<Ingredient> ingrList = new ArrayList<>();
-//
-//            if(ingredients != null) {
-//                Map<Long, Ingredient> map = new HashMap<>();
-//                for(String ingredientId : ingredients) {
-//                    long id = Long.parseLong(ingredientId);
-//                    log.info("id of ingr: " + id);
-//                    Ingredient ingredientToSave = ingredientService.getSingleIngredientById(id);
-//                    log.info("ingr: " + ingredientToSave);
-//
-//                    map.putIfAbsent(id, ingredientToSave);
-//                    map.put(id, ingredientToSave);
-//                    System.out.println(map.values());
-//
-//                }
-//                System.out.println(map.values());
-//                ingrList.addAll(map.values());
-//            }
-//
-//            item.setIngredients(ingrList);
 
             MenuItem savedItem = itemService.saveItem(item);
             itemService.saveCategory(category);
@@ -331,7 +336,7 @@ public class AdminPanelController {
                           @PathVariable long item_id,
                           @RequestParam(required = false) String item_category,
                           @RequestParam(required = false) MultipartFile picture,
-                          @RequestParam(required = false) String[] ingredients,
+                          @RequestParam(required = false) String[] selected_ingredients,
                           RedirectAttributes redirAttrs,
                           Model model) throws IOException {
 
@@ -351,19 +356,13 @@ public class AdminPanelController {
         if(ingrList != null && ingrList.size() > 0) ingrList.clear();
         else ingrList = new ArrayList<>();
 
-        if(ingredients != null) {
+        if(selected_ingredients != null) {
             Map<Long, Ingredient> map = new HashMap<>();
-            for(String ingredientId : ingredients) {
-                System.out.println(ingredientId);
+            for(String ingredientId : selected_ingredients) {
                 long id = Long.parseLong(ingredientId);
-                log.info("id of ingr: " + id);
                 Ingredient ingredientToSave = ingredientService.getSingleIngredientById(id);
-                log.info("ingr: " + ingredientToSave);
-
                 map.putIfAbsent(id, ingredientToSave);
-
             }
-            System.out.println(map.values());
             ingrList.addAll(map.values());
         }
 

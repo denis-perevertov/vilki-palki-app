@@ -6,9 +6,9 @@
   <title>Вилки Палки - Админка</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/fontawesome/all.min.css}">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" th:href="@{/css/adminlte/adminlte.min.css}">
   <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
 </head>
 
@@ -94,28 +94,13 @@
                     <span class="text-bold text-lg" id="graphUserAmount" th:text="${users.size()}">820</span>
                     <span>Новых пользователей</span>
                   </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fas fa-arrow-up"></i> 12.5%
-                    </span>
-                    <span class="text-muted">Since last week</span>
-                  </p>
                 </div>
                 <!-- /.d-flex -->
 
                 <div class="position-relative mb-4">
-                  <canvas id="visitors-chart" height="200"></canvas>
+                  <canvas id="users-chart" height="200"></canvas>
                 </div>
 
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> This Week
-                  </span>
-
-                  <span>
-                    <i class="fas fa-square text-gray"></i> Last Week
-                  </span>
-                </div>
               </div>
             </div>
             <!-- /.card -->
@@ -143,12 +128,12 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="order: ${orders}">
+                  <tr th:each="order, iter : ${orders}" th:if="${iter.index < 10}">
                     <td th:text="${order.id}"></td>
                     <td th:text="${order.address}"></td>
-                    <td>1000</td>
+                    <td th:text="${order.getTotalPrice()}">1000</td>
                     <td>
-                      <a href="admin/orders" class="text-muted">
+                      <a th:href="@{/admin/orders/{id}(id=${order.id})}" class="text-muted">
                         <i class="fas fa-search"></i>
                       </a>
                     </td>
@@ -174,12 +159,7 @@
                     <span class="text-bold text-lg">$18,230.00</span>
                     <span>Общая сумма продаж</span>
                   </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fas fa-arrow-up"></i> 33.1%
-                    </span>
-                    <span class="text-muted">Since last month</span>
-                  </p>
+
                 </div>
                 <!-- /.d-flex -->
 
@@ -187,15 +167,6 @@
                   <canvas id="sales-chart" height="200"></canvas>
                 </div>
 
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> This year
-                  </span>
-
-                  <span>
-                    <i class="fas fa-square text-gray"></i> Last year
-                  </span>
-                </div>
               </div>
             </div>
             <!-- /.card -->
@@ -252,11 +223,13 @@
 <!-- ./wrapper -->
 
 
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/adminlte.js"></script>
-<script src="/js/Chart.min.js"></script>
-<script src="/js/dashboard3.js"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/adminlte.js}"></script>
+<script th:src="@{/js/Chart.min.js}"></script>
+<script th:src="@{/js/dashboard3.js}"></script>
+
+<script th:src="@{/js/stats.js}"></script>
 
 <script th:inline="javascript">
 
@@ -267,45 +240,51 @@
     let user_list = /*[[${users}]]*/ [];
     let order_list = /*[[${orders}]]*/ [];
     let item_list = /*[[${items}]]*/ [];
+    let users_dates = /*[[${usersDates}]]*/ [];
 
-    function checkDates(user) {
-        return ( user.creationDate >= $("#date_from").val() ) && ( user.creationDate <= $("#date_to").val() )
-    }
+    let date_from = $("#date_from").val();
+    let date_to = $("#date_to").val();
 
-    let date_from = document.querySelector("#date_from");
-    let date_to = document.querySelector("#date_to");
-
-    date_from.addEventListener('change', function() {
-        let filteredUserList = user_list.filter(checkDates);
-        let filteredOrderList = order_list.filter(checkDates);
-        let filteredItemList = item_list.filter(checkDates);
-        $("#user_count").text(filteredUserList.length);
-        $("#order_count").text(filteredOrderList.length);
-        $("#item_count").text(filteredItemList.length);
-        $("#graphUserAmount").text(filteredUserList.length);
-    });
-
-    date_to.addEventListener('change', function() {
-        let filteredUserList = user_list.filter(checkDates);
-        let filteredOrderList = order_list.filter(checkDates);
-        let filteredItemList = item_list.filter(checkDates);
-        $("#user_count").text(filteredUserList.length);
-        $("#order_count").text(filteredOrderList.length);
-        $("#item_count").text(filteredItemList.length);
-        $("#graphUserAmount").text(filteredUserList.length);
-    });
+    console.log(user_list);
 
     $("#user_count").text(user_list.length);
     $("#order_count").text(order_list.length);
     $("#item_count").text(item_list.length);
 
-    console.log($("#date_from").val());
-    console.log($("#date_to").val());
+    function checkDates(user) {
+        return ( user.creationDate >= $("#date_from").val() ) && ( user.creationDate <= $("#date_to").val() )
+    }
+
+    function refresh() {
+        console.log("REFRESH FUNCTION START");
+
+        console.log(user_list);
+
+        let filteredUserList = user_list.filter(checkDates);
+        let filteredOrderList = order_list.filter(checkDates);
+        let filteredItemList = item_list.filter(checkDates);
+
+        console.log(filteredUserList);
+
+        $("#user_count").text(filteredUserList.length);
+        $("#order_count").text(filteredOrderList.length);
+        $("#item_count").text(filteredItemList.length);
+        $("#graphUserAmount").text(filteredUserList.length);
+
+        drawLineChart($("#date_from").val(), $("#date_to").val(), users_dates);
+    }
+
+
+    $("#date_from").change(refresh);
+    $("#date_to").change(refresh);
+
+    drawLineChart($("#date_from").val(), $("#date_to").val(), users_dates);
 
   });
 
 /*]]>*/
 </script>
+
 
 </body>
 </html>

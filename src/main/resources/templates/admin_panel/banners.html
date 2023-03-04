@@ -6,10 +6,10 @@
   <title>Вилки Палки - Админка</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
-  <link rel="stylesheet" href="/css/banners.css">
+  <link rel="stylesheet" th:href="@{/css/fontawesome/all.min.css}">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/adminlte/adminlte.min.css}">
+  <link rel="stylesheet" th:href="@{/css/banners.css}">
   <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
 </head>
 
@@ -47,9 +47,9 @@
                 <img th:src="@{/images/banners/{fileName}(fileName=${banner.fileName})}" src="/images/placeholder.jpg" onclick="addphoto(this)" alt="">
                 <span>+ Добавить фото</span>
               </div>
-              <button type="button" onclick="addphoto(this)">+ Добавить</button>
+              <a class="button" onclick="addphoto(this)">+ Добавить</a>
               <input type="file" onchange="showphoto(this)" name="banners" id="" style="display:none;">
-              <button type="button" onclick="removephoto(this)">- Удалить</button>
+              <a class="button" onclick="removephoto(this)" th:attr="data-banner_id=${banner.id}">- Удалить</a>
             </div>
 
             <button id="add-button" type="button">+ Добавить баннер</button>
@@ -70,7 +70,12 @@
 
     
   </div>
-  <script>
+
+
+
+</div>
+
+<script>
 
     let btn = document.getElementById("add-button");
     console.log('alo');
@@ -81,9 +86,10 @@
 
       let banner = document.createElement('div');
       banner.classList.add('banner');
-      banner.innerHTML = '<div class="image"><img src="/images/placeholder.jpg" onclick="addphoto(this)" alt=""><span>+ Добавить фото</span></div>'
-      + '<button type="button" onclick="addphoto(this)">+ Добавить</button><input type="file" onchange="showphoto(this)" name="banners" id="" style="display:none;">'
-      + '<button type="button" onclick="removephoto(this)">- Удалить</button>'
+      banner.innerHTML = '<div class="image"><img src="/vilkipalki/images/placeholder.jpg" onclick="addphoto(this)" alt=""><span>+ Добавить фото</span></div>'
+      + '<a class="button" onclick="addphoto(this)">+ Добавить</a>'
+      + '<input type="file" onchange="showphoto(this)" name="banners" id="" style="display:none;">'
+      + '<a class="button" onclick="removephoto(this)" data-banner_id=0>- Удалить</a>'
 
       btn.parentElement.insertBefore(banner,btn);
 
@@ -107,25 +113,34 @@
     }
 
     function removephoto(btn) {
-      let image = btn.parentElement.querySelector('.image').children[0];
-      image.src = "placeholder.jpg";
+      let button = btn;
+      let banner_id = parseInt(btn.dataset.banner_id);
+      console.log(banner_id);
 
-      let input = btn.parentElement.closest(".banner").querySelector('input');
+      if(banner_id > 0) {
+          $.ajax({
+          type: "POST",
+          url: "/vilkipalki/admin/banners/delete",
+          data: {
+            id:parseInt(banner_id)
+          },
+          success: function(){button.parentElement.remove()},
+          dataType: "json"
+        });
+      }
 
-      input.value = "";
+      button.parentElement.remove();
 
-      console.log(input.value);
     }
+
 
   </script>
 
-</div>
-
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/adminlte.js"></script>
-<script src="/js/Chart.min.js"></script>
-<script src="/js/pages/dashboard3.js"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/adminlte.js}"></script>
+<script th:src="@{/js/Chart.min.js}"></script>
+<script th:src="@{/js/pages/dashboard3.js}"></script>
 
 </body>
 </html>

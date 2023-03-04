@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name="orders")
 @Data
 @NoArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Order implements Serializable, Cloneable {
 
     @Id
@@ -36,17 +36,19 @@ public class Order implements Serializable, Cloneable {
 
     private long user_id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "order_items",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
-    //@NotBlank(message = "Список не должен быть пустым")
     private List<MenuItem> itemList;
 
     @Past
     @DateTimeFormat(pattern="yyyy-MM-dd // hh:mm")
     private LocalDateTime datetime;
+
+    @ManyToMany(mappedBy = "orderList")
+    private List<AppUser> userList;
 
     @Transient
     private boolean current;
@@ -61,16 +63,15 @@ public class Order implements Serializable, Cloneable {
 
     public int getTotalPrice() {
         int sum = 0;
-        return this.getItemList().stream().map(MenuItem::getPrice).reduce(0, Integer::sum);
+        if(this.itemList != null) for(MenuItem item : this.itemList) sum += item.getPrice();
+        return sum;
     }
 
 
     @Override
     public Order clone() {
         try {
-            Order clone = (Order) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
-            return clone;
+            return (Order) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }

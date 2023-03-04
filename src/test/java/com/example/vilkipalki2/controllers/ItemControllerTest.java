@@ -10,6 +10,8 @@ import com.example.vilkipalki2.services.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +69,9 @@ public class ItemControllerTest {
                 .alwaysExpect(status().isOk())
                 .build();
 
-        mapper = new ObjectMapper();
+        mapper = new ObjectMapper()
+                .registerModule(new Jdk8Module())
+                .registerModule(new JavaTimeModule());
 
         user = new AppUser("Test", "test", 100);
         user.setFavoriteItemsList(new ArrayList<>());

@@ -19,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name="users")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class AppUser {
 
     @Id
@@ -46,7 +46,11 @@ public class AppUser {
 
     private LocalDate creationDate = LocalDate.of(2022, 1, 1);
 
-    @ElementCollection
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_order_list",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id"))
     private List<Order> orderList;
 
     @ElementCollection

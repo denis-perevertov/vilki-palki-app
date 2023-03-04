@@ -1,4 +1,4 @@
-package com.example.vilkipalki2.services.email;
+package com.example.vilkipalki2.services;
 
 import com.example.vilkipalki2.models.Banner;
 import com.example.vilkipalki2.repos.BannerRepository;
@@ -16,4 +16,10 @@ public class BannerService {
     public List<Banner> getAllBanners() {return bannerRepository.findAll();}
 
     public Banner saveBanner(Banner banner) {return bannerRepository.save(banner);}
+
+    public void deleteBanner(long id) {
+        System.out.println("deleteBanner");
+        bannerRepository.deleteById(id);
+        System.out.println("Banner deleted?");
+    }
 }

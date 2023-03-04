@@ -20,7 +20,7 @@
                     Администратор
                 </p>
                 <div class="logout">
-                    <a href="/logout">Выйти из аккаунта</a>
+                    <a th:href="@{/logout}">Выйти из аккаунта</a>
                 </div>
             </li>
 
@@ -74,7 +74,7 @@
     </style>
     </nav>
 <aside th:fragment="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="/admin" class="brand-link">
+        <a th:href="@{/admin}" class="brand-link">
             <img th:src="@{/images/logo-vilki-palki.png}" alt="AdminLTE Logo" class="rounded p-10 w-100 mx-auto d-block">
         </a>
 
@@ -98,7 +98,7 @@
 
                     <!--Статистика-->
                     <li class="nav-item">
-                        <a href="/admin" class="nav-link">
+                        <a th:href="@{/admin}" class="nav-link">
                             <i class="nav-icon fa-solid fa-chart-simple"></i>
                             <p>
                                 <span class="pl-2 h5">Статистика</span>
@@ -107,7 +107,7 @@
                     </li>
                     <!--Баннера-->
                     <li class="nav-item">
-                        <a href="/admin/banners" class="nav-link">
+                        <a th:href="@{/admin/banners}" class="nav-link">
                             <i class="nav-icon fa-regular fa-image"></i>
                             <p>
                                 <span class="pl-2 h5">Баннера</span>
@@ -125,13 +125,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/users" class="nav-link">
+                                <a th:href="@{/admin/users}" class="nav-link">
                                     <i class="far fa-sm fa-circle pl-2 mr-3"></i>
                                     <p>Список пользователей</p>
                                 </a>
                             </li>
                             <li class="nav-item flex-row align-items-center">
-                                <a href="/admin/users/add-user" class="nav-link ml-2">
+                                <a th:href="@{/admin/users/add-user}" class="nav-link ml-2">
                                     <i class="fa-solid fa-plus"></i>
                                     <p class="ml-3">Добавить пользователя</p>
                                 </a>
@@ -149,13 +149,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/orders" class="nav-link">
+                                <a th:href="@{/admin/orders}" class="nav-link">
                                     <i class="far fa-sm fa-circle pl-2 mr-3"></i>
                                     <p>Текущие заказы</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/orders/history" class="nav-link">
+                                <a th:href="@{/admin/orders/history}" class="nav-link">
                                     <i class="far fa-sm fa-circle pl-2 mr-3"></i>
                                     <p>История заказов</p>
                                 </a>
@@ -174,25 +174,25 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/items" class="nav-link">
+                                <a th:href="@{/admin/items}" class="nav-link">
                                     <i class="far fa-sm fa-circle pl-2 mr-3"></i>
                                     <p>Все товары</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/items/ingredients" class="nav-link">
+                                <a th:href="@{/admin/items/ingredients}" class="nav-link">
                                     <i class="fa-solid fa-burger pl-2 mr-3"></i>
                                     <p>Ингредиенты</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/items/add-item" class="nav-link">
+                                <a th:href="@{/admin/items/add-item}" class="nav-link">
                                     <i class="fa-solid fa-plus pl-2 mr-3"></i>
                                     <p>Добавить товар</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/items/add-category" class="nav-link">
+                                <a th:href="@{/admin/items/add-category}" class="nav-link">
                                     <i class="fa-solid fa-plus pl-2 mr-3"></i>
                                     <p>Добавить категорию</p>
                                 </a>
@@ -211,19 +211,19 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/sms" class="nav-link">
+                                <a th:href="@{/admin/sms}" class="nav-link">
                                     <i class="fa-solid fa-comment-sms nav-icon"></i>
                                     <p>SMS</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/email" class="nav-link">
+                                <a th:href="@{/admin/email}" class="nav-link">
                                     <i class="fa-solid fa-envelope nav-icon"></i>
                                     <p>E-mail</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/telegram" class="nav-link">
+                                <a th:href="@{/admin/telegram}" class="nav-link">
                                     <i class="fa-brands fa-telegram nav-icon"></i>
                                     <p>Telegram</p>
                                 </a>

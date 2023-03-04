@@ -21,7 +21,7 @@ public class Category {
     private String iconFileName;
 
     @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="category")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="category")
     @JsonManagedReference(value = "category_reference")
     private List<MenuItem> itemList;
 

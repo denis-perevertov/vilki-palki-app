@@ -6,11 +6,11 @@
   <title>Вилки Палки - Админка</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="/css/fontawesome/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/fontawesome/all.min.css}">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
-  <link rel="stylesheet" href="/css/user-edit.css">
-  <link rel="stylesheet" href="/css/modal.css">
+  <link rel="stylesheet" th:href="@{/css/adminlte/adminlte.min.css}">
+  <link rel="stylesheet" th:href="@{/css/user-edit.css}">
+  <link rel="stylesheet" th:href="@{/css/modal.css}">
   <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
 </head>
 
@@ -94,10 +94,10 @@
                 <span class="close">&times;</span>
               </div>
               <div class="mod-b">
-                <div class="ingredient" th:each="ingr : ${ingredients}">
-                  <img th:src="@{/images/ingredients/{icon}(icon=${ingr.icon}}" alt="" class="icon">
+                <div class="ingredient" onclick="addIngredient(this)" th:each="ingr : ${ingredients}">
+                  <img th:src="@{/images/ingredients/{icon}(icon=${ingr.icon})}" alt="" class="icon">
                   <p th:text="${ingr.name}"></p>
-                  <input type="text" name="selected_ingredients" style="display: none;" th:value="${ingr.id}">
+                  <input type="text" name="" style="display: none;" th:value="${ingr.id}">
                 </div>
                 <div class="plus">+</div>
               </div>
@@ -119,12 +119,12 @@
 
 </div>
 
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/adminlte.js"></script>
-<script src="/js/Chart.min.js"></script>
-<script src="/js/pages/dashboard3.js"></script>
-<script src="/js/modal2.js"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/adminlte.js}"></script>
+<script th:src="@{/js/Chart.min.js}"></script>
+<script th:src="@{/js/pages/dashboard3.js}"></script>
+<script th:src="@{/js/modal2.js}"></script>
 
 
 <script>

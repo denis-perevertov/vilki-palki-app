@@ -1,7 +1,7 @@
 package com.example.vilkipalki2.service;
 
 import com.example.vilkipalki2.TestConfig;
-import com.example.vilkipalki2.controllers.exception.OrderNotFoundException;
+import com.example.vilkipalki2.exception.OrderNotFoundException;
 import com.example.vilkipalki2.models.Address;
 import com.example.vilkipalki2.models.AppUser;
 import com.example.vilkipalki2.models.MenuItem;

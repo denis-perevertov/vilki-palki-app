@@ -26,35 +26,35 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
         System.out.println("password validator start");
 
         boolean valid = true;
-        try
-        {
-            String pass = "";
-            String confirm = "";
-            Field[] fields = o.getClass().getDeclaredFields();
-            for(Field field : fields) {
-                field.setAccessible(true);
-                if(field.getName().equals(firstFieldName)) pass = field.get(o).toString();
-                if(field.getName().equals(secondFieldName)) confirm = field.get(o).toString();
-            }
-
-            System.out.println("pass: " + pass);
-            System.out.println("confirm: " + confirm);
-
-            valid =  pass == null && confirm == null || pass != null && pass.equals(confirm);
-
-            System.out.println(valid);
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        if (!valid){
-            constraintValidatorContext.buildConstraintViolationWithTemplate(message)
-                    .addPropertyNode(firstFieldName)
-                    .addConstraintViolation()
-                    .disableDefaultConstraintViolation();
-        }
+//        try
+//        {
+//            String pass = "";
+//            String confirm = "";
+//            Field[] fields = o.getClass().getDeclaredFields();
+//            for(Field field : fields) {
+//                field.setAccessible(true);
+//                if(field.getName().equals(firstFieldName)) pass = field.get(o).toString();
+//                if(field.getName().equals(secondFieldName)) confirm = field.get(o).toString();
+//            }
+//
+//            System.out.println("pass: " + pass);
+//            System.out.println("confirm: " + confirm);
+//
+//            valid =  pass == null && confirm == null || pass != null && pass.equals(confirm);
+//
+//            System.out.println(valid);
+//        }
+//        catch (final Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        if (!valid){
+//            constraintValidatorContext.buildConstraintViolationWithTemplate(message)
+//                    .addPropertyNode(firstFieldName)
+//                    .addConstraintViolation()
+//                    .disableDefaultConstraintViolation();
+//        }
 
         return valid;
     }

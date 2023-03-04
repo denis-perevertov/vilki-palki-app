@@ -1,12 +1,15 @@
 package com.example.vilkipalki2.controllers;
 
 import com.example.vilkipalki2.controllers.UserController;
+import com.example.vilkipalki2.dto.UserDTO;
 import com.example.vilkipalki2.models.Address;
 import com.example.vilkipalki2.models.AppUser;
 import com.example.vilkipalki2.models.MenuItem;
 import com.example.vilkipalki2.services.ItemService;
 import com.example.vilkipalki2.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +71,9 @@ public class UserControllerTest {
                 .alwaysExpect(status().isOk())
                 .build();
 
-        mapper = new ObjectMapper();
+        mapper = new ObjectMapper()
+                .registerModule(new Jdk8Module())
+                .registerModule(new JavaTimeModule());
 
         user = new AppUser("Test", "test", 100);
         user.setFavoriteItemsList(new ArrayList<>());
@@ -87,18 +92,26 @@ public class UserControllerTest {
     @Test
     public void addUserTest() throws Exception {
         AppUser user = new AppUser("test@gmail.com", "test");
+        UserDTO dto = new UserDTO("testuser", "+380997524927", "email@gmail.com");
         user.setId(0);
+        user.setPhone("+380997524927");
+        user.setName("test");
 
         String jsonUser = mapper.writeValueAsString(user);
+        String jsonUserDTO = mapper.writeValueAsString(dto);
+
+        System.out.println(jsonUser);
 
         given(userService.saveUser(user)).willReturn(user);
+        given(userService.fromDTOToUser(dto)).willReturn(user);
 
-//        mockMvc.perform(post("/api/v3/users/add-user")
-//                            .contentType("application/json;charset=UTF-8")
-//                            .accept("application/json;charset=UTF-8")
-//                            .content(jsonUser))
-//                .andDo(print())
-//                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/v3/users/add-user")
+                            .contentType("application/json;charset=UTF-8")
+                            .accept("application/json;charset=UTF-8")
+                            .content(jsonUserDTO))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Added new appUser "+user.getName()+" , id = 0"));
 
     }
 

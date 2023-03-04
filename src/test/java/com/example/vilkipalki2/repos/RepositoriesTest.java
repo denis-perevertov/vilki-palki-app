@@ -4,9 +4,7 @@ import com.example.vilkipalki2.models.AppUser;
 import com.example.vilkipalki2.models.Category;
 import com.example.vilkipalki2.models.EmailTemplate;
 import com.example.vilkipalki2.models.MenuItem;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -14,6 +12,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DataJpaTest
 class RepositoriesTest {
 
@@ -65,15 +64,19 @@ class RepositoriesTest {
     }
 
     @Test
+    @Order(1)
     void findUserEmailByUserId() {
         String email = "test@gmail.com";
         AppUser user = new AppUser();
-        user.setId(0);
+        user.setId(1L);
         user.setEmail(email);
 
         userRepository.save(user);
 
         String expected = userRepository.findEmailById(1L);
+
+        System.out.println(expected);
+        System.out.println(email);
 
         assertThat(expected).isEqualTo(email);
     }

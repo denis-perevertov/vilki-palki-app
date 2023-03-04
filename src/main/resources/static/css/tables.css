@@ -1,5 +1,6 @@
 table {
     margin-block: 10px;
+    caret-color: transparent;
 }
 
 td, th {
@@ -14,4 +15,8 @@ th {
 
 td {
     background-color: lightgray;
+}
+
+thead th {
+    cursor: pointer;
 }

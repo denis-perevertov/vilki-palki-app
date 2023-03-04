@@ -25,15 +25,15 @@ public class AuthController {
     @PostMapping("/api/register")
     public String registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
         AppUser user = new AppUser();
-        user.setEmail(registrationRequest.login());
-        user.setPassword(registrationRequest.password());
+        user.setEmail(registrationRequest.getLogin());
+        user.setPassword(registrationRequest.getPassword());
         userService.saveUser(user);
         return "Ok";
     }
 
     @PostMapping("/api/auth")
     public AuthResponse auth(@RequestBody AuthRequest request) {
-        AppUser user = userService.findByLoginAndPassword(request.login(), request.password());
+        AppUser user = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
         String token = jwtProvider.generateToken(user.getEmail());
         return new AuthResponse(token);
     }

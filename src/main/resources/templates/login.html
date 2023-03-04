@@ -7,7 +7,7 @@
   <title>Войти в аккаунт</title>
 
   <base href="/">
-  <link rel="stylesheet" type="text/css" href="css/login.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
 </head>
 <body>
 
@@ -38,10 +38,11 @@
 
 </body>
 
-<style>
+<style th:inline="text">
 
   body {
-    background: url("/images/bg.png");
+    margin: 0;
+    background: url([[@{/images/bg.png}]]);
     background-size: contain;
     position: relative;
     font-family: 'Segoe UI', Tahoma;

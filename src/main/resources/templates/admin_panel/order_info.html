@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вилки Палки - Админка</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" th:href="@{/css/fontawesome/all.min.css}">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" th:href="@{/css/adminlte/adminlte.min.css}">
+  <link rel="stylesheet" th:href="@{/css/items.css}">
+  <script src="https://kit.fontawesome.com/c8bdb5141b.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+
+  <nav th:insert="~{header-sidebar :: header}"></nav>
+  <aside th:insert="~{header-sidebar :: sidebar}"></aside>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <h2>Информация о заказе</h2>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container-fluid">
+        <p><b>ID заказа: </b><span th:text="${order.id}"></span></p> <br>
+        <p><b>ID пользователя: </b><span th:text="${order.user_id}"></span></p> <br>
+        <p><b>Статус: </b><span th:text="${order.status}"></span></p> <br>
+        <p><b>Адрес: </b> <br>
+          <p>---Улица: <span th:text="${order.address.street}"></span></p>
+          <p>---Дом: <span th:text="${order.address.house}"></span></p>
+          <p>---Квартира: <span th:text="${order.address.apartment}"></span></p>
+          <p>---Подъезд: <span th:text="${order.address.entrance}"></span></p>
+          <p>---Этаж: <span th:text="${order.address.floor}"></span></p>
+          <p>---Заметки: <span th:text="${order.address.comment}"></span></p>
+        </p> <br>
+        <p><b>Содержание: </b>
+          <ul><li th:each="item : ${order.itemList}"><span th:text="${item.name}"></span></li></ul>
+        </p> <br>
+        <p><b>Дата создания: </b><span th:text="${order.datetime}"></span></p> <br>
+        <p><b>Общая цена: </b><span th:text="${order.getTotalPrice()}"></span></p>
+
+        <br>
+        <br>
+
+        <a th:href="@{/admin/orders}"><button class="back_button" type="button">← Назад ←</button></a>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/adminlte.js}"></script>
+<script th:src="@{/js/Chart.min.js}"></script>
+<script th:src="@{/js/pages/dashboard3.js}"></script>
+</body>
+</html>

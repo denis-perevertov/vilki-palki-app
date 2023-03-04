@@ -1,7 +1,7 @@
 package com.example.vilkipalki2.services;
 
-import com.example.vilkipalki2.controllers.exception.CategoryNotFoundException;
-import com.example.vilkipalki2.controllers.exception.ItemNotFoundException;
+import com.example.vilkipalki2.exception.CategoryNotFoundException;
+import com.example.vilkipalki2.exception.ItemNotFoundException;
 import com.example.vilkipalki2.models.Category;
 import com.example.vilkipalki2.models.MenuItem;
 import com.example.vilkipalki2.repos.CategoryRepository;

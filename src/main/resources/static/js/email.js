@@ -10,7 +10,7 @@ templateFileInput.addEventListener('change', function() {
     let fileName = this.files[0].name;
 
     $.post(
-            "http://localhost:8080/admin/email/save-template",
+            "/vilkipalki/admin/email/save-template",
             {template_name:fileName},
             function(returnedData) {console.log(returnedData); alert("saved template to DB");}
     ).fail(function() {alert("error")})
@@ -61,7 +61,7 @@ $(document).ready(function() {
             console.log(ids);
 
             $.post(
-                    "http://localhost:8080/admin/email",
+                    "/vilkipalki/admin/email",
                     {users:JSON.stringify(saved_ids), template_name:JSON.stringify(chosen_template)},
                     function(returnedData) {console.log(returnedData); alert("SENT EMAILS TO USERS");}
                   )

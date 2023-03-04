@@ -25,7 +25,7 @@ $(document).ready(function() {
         let id = $(this).find("span").text();
         console.log("ID OF CATEGORY = " + id);
 
-        $.ajax("http://localhost:8080/api/v3/items/categories/" + id + "/items", {
+        $.ajax("http://localhost:8080/vilkipalki/api/v3/items/categories/" + id + "/items", {
             datatype: "json",
             contentType: "json",
 

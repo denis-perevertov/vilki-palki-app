@@ -70,7 +70,9 @@ public class OrderControllerTest {
                 .alwaysExpect(status().isOk())
                 .build();
 
-        mapper = new ObjectMapper();
+        mapper = new ObjectMapper()
+                .registerModule(new Jdk8Module())
+                .registerModule(new JavaTimeModule());
 
         user = new AppUser("Test", "test", 100);
         user.setFavoriteItemsList(new ArrayList<>());

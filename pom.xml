@@ -12,11 +12,13 @@
 	<artifactId>vilkipalki</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>vilkipalki</name>
+	<packaging>war</packaging>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 		<start-class>com.example.vilkipalki2.VilkipalkiApplication</start-class>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -138,10 +140,16 @@
 			<artifactId>telegrambots</artifactId>
 			<version>6.5.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 	</dependencies>
 
 	<build>
+		<finalName>${artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -159,6 +167,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>3.0.0</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.1</version>
 			</plugin>
 		</plugins>
 	</build>

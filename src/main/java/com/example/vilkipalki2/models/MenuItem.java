@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name="items")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class MenuItem {
 
     @Id
@@ -40,7 +40,7 @@ public class MenuItem {
     private LocalDate creationDate = LocalDate.of(2022, 1, 1);
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name="category_items",
             joinColumns={@JoinColumn(name="item_id")},
             inverseJoinColumns={@JoinColumn(name="Category_id")})
@@ -48,7 +48,7 @@ public class MenuItem {
     private Category category;
 
     @ToString.Exclude
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "item_ingredients",
             joinColumns = @JoinColumn(name = "item_id"),

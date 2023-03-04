@@ -15,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.ArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
@@ -40,6 +42,8 @@ public class UserServiceTest {
 
         userService.getAllUsers();
         verify(appUserRepository).findAll();
+        given(appUserRepository.findAll()).willReturn(new ArrayList<>());
+        assertThat(userService.getAllUsers()).isNotNull();
 
     }
 

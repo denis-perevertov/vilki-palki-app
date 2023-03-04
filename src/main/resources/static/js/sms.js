@@ -25,9 +25,9 @@
             console.log(ids);
 
             $.post(
-                "http://localhost:8080/admin/sms",
+                "/vilkipalki/admin/sms",
                 {field:"hello", users:JSON.stringify(saved_ids)},
-                function(returnedData) {console.log(returnedData); alert("SENT SMS TO USERS");}
+                function(returnedData) {console.log(returnedData); alert("Отправка SMS здесь не сделана ))");}
             )
             .fail(function() {console.log("error");})
         });

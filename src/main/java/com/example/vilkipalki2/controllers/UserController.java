@@ -39,7 +39,7 @@ public class UserController {
     public AppUser getUser(@PathVariable long user_id) {return userService.getUser(user_id);}
 
     @PostMapping("/add-user")
-    public ResponseEntity<String> addUser(@Valid @RequestBody UserDTO dto) {
+    public ResponseEntity<String> addUser(@RequestBody UserDTO dto) {
         AppUser newAppUser = userService.saveUser(userService.fromDTOToUser(dto));
         return ResponseEntity.ok().body("Added new appUser " + newAppUser.getName() + " , id = " + newAppUser.getId());
     }

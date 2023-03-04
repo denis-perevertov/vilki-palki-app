@@ -1,7 +1,7 @@
 package com.example.vilkipalki2.services;
 
-import com.example.vilkipalki2.controllers.exception.ItemNotFoundException;
-import com.example.vilkipalki2.controllers.exception.OrderNotFoundException;
+import com.example.vilkipalki2.exception.ItemNotFoundException;
+import com.example.vilkipalki2.exception.OrderNotFoundException;
 import com.example.vilkipalki2.models.AppUser;
 import com.example.vilkipalki2.models.MenuItem;
 import com.example.vilkipalki2.models.Order;
@@ -14,6 +14,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,15 +30,17 @@ public class OrderService {
 
         log.info("Getting full item info from IDs...");
         List<MenuItem> itemList = orderInfo.getItemList();
+        List<MenuItem> itemFullInfoList = new ArrayList<>();
         for(MenuItem item : itemList) {
             item = menuItemRepository.findById(item.getId()).orElseThrow(ItemNotFoundException::new);
             System.out.println(item);
+            itemFullInfoList.add(item);
         }
-        orderInfo.setItemList(itemList);
+        orderInfo.setItemList(itemFullInfoList);
 
         log.info("Setting NEW status and date/time...");
-        orderInfo.setStatus(OrderStatus.NEW);
-        orderInfo.setDatetime(LocalDateTime.now());
+        //orderInfo.setStatus(OrderStatus.NEW);
+        //orderInfo.setDatetime(LocalDateTime.now());
 
         log.info("Saving order into user's list...");
         long user_id = orderInfo.getUser_id();
