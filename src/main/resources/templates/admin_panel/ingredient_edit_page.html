@@ -39,8 +39,9 @@
         <form method="post" th:object="${ingr}" enctype="multipart/form-data">
 
           <div class="photo">
-            <img onerror="this.onerror=null; this.src='/images/placeholder.jpg'"
-                 th:src="${ingr != null} ? @{/images/ingredients/{url}(url=${ingr.icon})} : '/images/placeholder.jpg'" id="image_container" onclick="addPhoto()" alt="">
+            <img th:src="${ingr != null && ingr.icon != null && ingr.icon != ''} ?
+                 @{/images/ingredients/{url}(url=${ingr.icon})} : @{/images/placeholder.jpg}"
+                 id="image_container" onclick="addPhoto()" alt="">
             <span class="add-photo">+ Добавить фото</span>
             <input type="file" name="picture" onchange="uploadPhoto(this)" accept="image/*" id="file_input" style="display: none;">
           </div>

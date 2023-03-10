@@ -1,10 +1,7 @@
 package com.example.vilkipalki2.models;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -48,6 +45,7 @@ public class MenuItem {
     private Category category;
 
     @ToString.Exclude
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "item_ingredients",
@@ -56,10 +54,12 @@ public class MenuItem {
     private List<Ingredient> ingredients;
 
     @ToString.Exclude
+    @JsonIgnore
     @ManyToMany(mappedBy = "itemList")
     private List<Order> orders;
 
     @ToString.Exclude
+    @JsonIgnore
     @ManyToMany(mappedBy = "favoriteItemsList")
     private List<AppUser> users;
 

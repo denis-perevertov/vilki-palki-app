@@ -39,8 +39,8 @@ public class OrderService {
         orderInfo.setItemList(itemFullInfoList);
 
         log.info("Setting NEW status and date/time...");
-        //orderInfo.setStatus(OrderStatus.NEW);
-        //orderInfo.setDatetime(LocalDateTime.now());
+        orderInfo.setStatus(OrderStatus.NEW);
+        orderInfo.setDatetime(LocalDateTime.now());
 
         log.info("Saving order into user's list...");
         long user_id = orderInfo.getUser_id();

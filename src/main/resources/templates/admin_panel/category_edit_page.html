@@ -40,7 +40,9 @@
           <span style="font-weight: bold; font-size: 24px; color: green; padding-bottom: 10px" th:text="${success_message}"></span>
 
           <div class="photo">
-            <img th:src="${cat != null} ? @{/images/categories/{id}/{url}(id=${cat.id}, url=${cat.iconFileName})} : '/images/placeholder.jpg'" id="image_container" onclick="addPhoto()" alt="">
+            <img th:src="${cat != null && cat.iconFileName != null && cat.iconFileName != ''} ?
+            @{/images/categories/{id}/{url}(id=${cat.id}, url=${cat.iconFileName})} :
+            @{/images/placeholder.jpg}" id="image_container" onclick="addPhoto()" alt="">
             <span class="add-photo">+ Добавить фото</span>
             <input type="file" name="picture" onchange="uploadPhoto(this)" accept="image/*" id="file_input" style="display: none;">
           </div>

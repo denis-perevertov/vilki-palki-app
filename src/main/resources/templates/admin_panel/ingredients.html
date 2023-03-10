@@ -61,16 +61,15 @@
                   <tr th:each="ingr : ${ingredients}">
                     <td th:text="${ingr.id}"></td>
                     <td>
-                      <img th:src="@{/images/ingredients/{url}(url=${ingr.icon})}"
-                           onerror="this.onerror=null; this.src='/images/placeholder.jpg'"
+                      <img th:src="${ingr.icon != null && ingr.icon != ''} ? @{/images/ingredients/{url}(url=${ingr.icon})} : @{/images/placeholder.jpg}"
                            alt="">
                     </td>
                     <td th:text="${ingr.name}"></td>
                       <td>
-                          <a th:href="'/admin/items/ingredients/' + ${ingr.id}" style="color: blue; text-decoration: underline">Редактировать</a>
+                          <a th:href="@{/admin/items/ingredients/{id}(id=${ingr.id})}" style="color: blue; text-decoration: underline">Редактировать</a>
                           <br>
                           <br>
-                          <a th:href="'/admin/items/ingredients/' + ${ingr.id} + '/delete'" style="color: red; text-decoration: underline">Удалить</a>
+                          <a th:href="@{/admin/items/ingredients/{id}/delete(id=${ingr.id})}" style="color: red; text-decoration: underline">Удалить</a>
                       </td>
                   </tr>
               </tbody>

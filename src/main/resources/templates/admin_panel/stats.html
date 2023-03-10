@@ -97,7 +97,7 @@
                 </div>
                 <!-- /.d-flex -->
 
-                <div class="position-relative mb-4">
+                <div id="user-container" class="position-relative mb-4">
                   <canvas id="users-chart" height="200"></canvas>
                 </div>
 
@@ -156,14 +156,14 @@
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">$18,230.00</span>
+                    <span id="total" class="text-bold text-lg">$18,230.00</span>
                     <span>Общая сумма продаж</span>
                   </p>
 
                 </div>
                 <!-- /.d-flex -->
 
-                <div class="position-relative mb-4">
+                <div id="bar-container" class="position-relative mb-4">
                   <canvas id="sales-chart" height="200"></canvas>
                 </div>
 
@@ -218,6 +218,7 @@
     </div>
   </div>
 
+  <input type="text" id="myList" style="display: none;" th:value="${users}">
 
 </div>
 <!-- ./wrapper -->
@@ -231,16 +232,20 @@
 
 <script th:src="@{/js/stats.js}"></script>
 
+
+
 <script th:inline="javascript">
 
-/*<![CDATA[*/
+
+    let user_list = [[${users}]];
+    let order_list = [[${orders}]];
+    let item_list = [[${items}]];
+    let users_dates = [[${usersDates}]];
+
 
   $(document).ready(function() {
 
-    let user_list = /*[[${users}]]*/ [];
-    let order_list = /*[[${orders}]]*/ [];
-    let item_list = /*[[${items}]]*/ [];
-    let users_dates = /*[[${usersDates}]]*/ [];
+    console.log($("#myList").val());
 
     let date_from = $("#date_from").val();
     let date_to = $("#date_to").val();
@@ -272,6 +277,7 @@
         $("#graphUserAmount").text(filteredUserList.length);
 
         drawLineChart($("#date_from").val(), $("#date_to").val(), users_dates);
+        drawBarChart($("#date_from").val(), $("#date_to").val(), order_list);
     }
 
 
@@ -279,10 +285,11 @@
     $("#date_to").change(refresh);
 
     drawLineChart($("#date_from").val(), $("#date_to").val(), users_dates);
+    drawBarChart($("#date_from").val(), $("#date_to").val(), order_list);
 
   });
 
-/*]]>*/
+
 </script>
 
 

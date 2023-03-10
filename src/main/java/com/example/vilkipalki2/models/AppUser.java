@@ -6,11 +6,13 @@ import com.example.vilkipalki2.util.AppUserRole;
 import com.example.vilkipalki2.util.Gender;
 import com.example.vilkipalki2.util.Language;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,9 +53,11 @@ public class AppUser {
             name = "user_order_list",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id"))
+    @JsonIgnore
     private List<Order> orderList;
 
     @ElementCollection
+    @JsonIgnore
     private List<Address> addressList;
 
     @ManyToMany
@@ -61,6 +65,7 @@ public class AppUser {
             name = "user_favorite_items",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JsonIgnore
     private List<MenuItem> favoriteItemsList;
 
     public AppUser(){}
@@ -108,4 +113,24 @@ public class AppUser {
         this.bonus += bonusToAdd;
     }
 
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", role=" + role +
+                ", language=" + language +
+                ", gender=" + gender +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", avatarFileName='" + avatarFileName + '\'' +
+                ", birthdate=" + birthdate +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", bonus=" + bonus +
+                ", creationDate=" + creationDate +
+                ", orderList=" + orderList.size() +
+                ", addressList=" + addressList.size() +
+                ", favoriteItemsList=" + favoriteItemsList.size() +
+                "}\n";
+    }
 }

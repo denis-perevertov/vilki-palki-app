@@ -15,13 +15,16 @@ public class TelegramUser {
 
     private long userId;
 
+    private long chatId;
+
     private String phone_number;
 
     public TelegramUser() {
     }
 
-    public TelegramUser(long userId, String phone_number) {
+    public TelegramUser(long userId, long chatId, String phone_number) {
         this.userId = userId;
+        this.chatId = chatId;
         this.phone_number = phone_number;
     }
 }

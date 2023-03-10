@@ -40,6 +40,7 @@
       <div class="container-fluid">
 
         <span style="font-weight: bold; font-size: 24px; color: green; margin-bottom: 10px" th:text="${success_message}"></span>
+        <span style="font-weight: bold; font-size: 16px; color: red; margin-bottom: 10px" th:text="${fail_message}"></span>
 
         <form method="post" enctype="multipart/form-data" th:object="${item}">
         
@@ -48,8 +49,9 @@
           <div class="item-data-row">
 
             <div class="item-picture">
-              <img onerror="this.onerror=null; this.src='/images/placeholder.jpg';"
-                   th:src="@{/images/{url}(url=${item.pictureFileName})}"
+              <img th:src="${item != null && item.pictureFileName != null && item.pictureFileName != ''} ?
+                   @{/images/{url}(url=${item.pictureFileName})} :
+                   @{/images/placeholder.jpg}"
                    id="image_container" onclick="addPhoto()" alt="">
               <span class="add-photo">+ Добавить фото</span>
               <input type="file" accept="image/*" name="picture" id="file_input" onchange="showPhoto(this)" style="display: none">

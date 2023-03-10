@@ -20,6 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +37,14 @@ import java.util.Random;
 @Controller
 public class VilkipalkiApplication extends SpringBootServletInitializer {
 
-	@Autowired
-	private OrderService orderService;
-
-	@Autowired
-	private UserService userService;
+//	@Autowired
+//	private OrderService orderService;
+//
+//	@Autowired
+//	private UserService userService;
 
 	public static void main(String[] args) {
-		SpringApplication.run(VilkipalkiApplication.class, args);
+		ApplicationContext ctx = SpringApplication.run(VilkipalkiApplication.class, args);
 	}
 
 	@GetMapping("/test")

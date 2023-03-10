@@ -1,6 +1,8 @@
 
-
 function drawLineChart(date_from, date_to, users_dates) {
+
+    $('#users-chart').remove();
+    $('#user-container').append('<canvas id="users-chart" height="200"></canvas>');
 
     let line_ctx = document.getElementById('users-chart');
 
@@ -73,8 +75,15 @@ function drawLineChart(date_from, date_to, users_dates) {
 
 function drawBarChart(date_from, date_to, orders) {
 
+    Chart.defaults.backgroundColor = '#9BD0F5';
+    Chart.defaults.borderColor = '#36A2EB';
+    Chart.defaults.color = '#000';
+
     console.log("ORDERS FOR DRAWING CHART: ");
     console.log(orders);
+
+    $('#sales-chart').remove();
+    $('#bar-container').append('<canvas id="sales-chart" height="200"></canvas>');
 
     let bar_ctx = document.getElementById('sales-chart');
 
@@ -86,12 +95,17 @@ function drawBarChart(date_from, date_to, orders) {
     console.log("current date: " + current);
     console.log("end date: " + end);
 
+    let total = 0;
+    let ordersAmount = 0;
+
     do {
         let d1 = new Date(current);
         let d2 = new Date(current.setDate(current.getDate() + 30));
 
         console.log("d1 date: " + d1);
         console.log("d2 date: " + d2);
+
+        let count = 0;
 
         for(let i = 0; i < orders.length; i++) {
             let order = orders[i];
@@ -102,18 +116,15 @@ function drawBarChart(date_from, date_to, orders) {
             console.log(order);
             console.log(orderDate);
 
-            let count = 0;
-
-            if(orderDate > d1 && orderDate < d2) {
+            if(orderDate >= d1 && orderDate <= d2) {
                 console.log("date " + orderDate + " is within the interval ");
-                let orderPrice = 0;
-                for(let j = 0; j < order.itemList.length; j++) {
-                    orderPrice += order.itemList[j];
-                }
-                console.log("Order price of the order (id=" + order.id + ") = " + orderPrice);
-                count += orderPrice;
+                console.log("Order price of the order (id=" + order.id + ") = " + order.totalPrice);
+                count += order.totalPrice;
+                ordersAmount++;
             }
         }
+
+        total += count;
 
         time_intervals.push({
             start:d1.toISOString().split('T')[0],
@@ -124,6 +135,9 @@ function drawBarChart(date_from, date_to, orders) {
     } while (current <= end);
 
     console.log(time_intervals);
+
+    $("#total").text('$'+total);
+    $("#order_count").text(ordersAmount);
 
     const bar_chart_labels = [];
     const bar_chart_data = [];
@@ -141,24 +155,8 @@ function drawBarChart(date_from, date_to, orders) {
         datasets: [{
           label: 'Продажи за интервал: ',
           data: time_intervals.map(row => row.total_price),
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-          ],
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgb(255, 99, 132)',
           borderWidth: 1
         }]
     };
@@ -171,8 +169,8 @@ function drawBarChart(date_from, date_to, orders) {
           y: {
             beginAtZero: true
           }
-        }
-      },
+        },
+      }
     };
 
     new Chart(bar_ctx, bar_config);

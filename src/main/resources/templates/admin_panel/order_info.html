@@ -46,9 +46,6 @@
         <p><b>Дата создания: </b><span th:text="${order.datetime}"></span></p> <br>
         <p><b>Общая цена: </b><span th:text="${order.getTotalPrice()}"></span></p>
 
-        <br>
-        <br>
-
         <a th:href="@{/admin/orders}"><button class="back_button" type="button">← Назад ←</button></a>
       </div>
     </div>

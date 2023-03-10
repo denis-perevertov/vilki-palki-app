@@ -2,6 +2,7 @@ package com.example.vilkipalki2.controllers;
 
 import com.example.vilkipalki2.dto.UserDTO;
 import com.example.vilkipalki2.models.*;
+import com.example.vilkipalki2.repos.TelegramUserRepository;
 import com.example.vilkipalki2.services.IngredientService;
 import com.example.vilkipalki2.services.ItemService;
 import com.example.vilkipalki2.services.OrderService;
@@ -37,6 +38,7 @@ public class AdminPanelController {
     private final ItemService itemService;
     private final IngredientService ingredientService;
     private final BannerService bannerService;
+    private final TelegramUserRepository telegramUserRepository;
 
     public static final String imageUploadDirectory = "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/vilkipalki/WEB-INF/classes/static/images";
 
@@ -50,6 +52,8 @@ public class AdminPanelController {
         List<LocalDate> datesList = userList.stream().map(AppUser::getCreationDate).toList();
 
         List<Order> orderList = orderService.getAllOrders();
+
+        System.out.println("users - " + userList);
 
         LocalDate now = LocalDate.now();
         LocalDate beginningOfTheMonth = LocalDate.of(2019, 1, 1);
@@ -143,6 +147,12 @@ public class AdminPanelController {
     public String addUser(@ModelAttribute(name="user") @Valid UserDTO userDTO,
                           BindingResult result,
                           RedirectAttributes redirAttrs) {
+
+        if(result.hasErrors()) {
+            redirAttrs.addFlashAttribute("fail", "Ошибка добавления пользователя");
+            return "redirect:/admin/users/add-user";
+        }
+
         try {
             AppUser appUser = userService.fromDTOToUser(userDTO);
             userService.saveUser(appUser);
@@ -306,7 +316,7 @@ public class AdminPanelController {
                     "Успешно добавили новый предмет: " + savedItem.getName() + "(id=" + savedItem.getId() + ")");
         } catch(Exception e) {
             redirAttrs.addFlashAttribute("fail_message",
-                    "Что-то пошло не так. " + Arrays.toString(e.getStackTrace()));
+                    "Что-то пошло не так. " + e.getMessage());
         }
 
         return "redirect:/admin/items/add-item";
@@ -340,6 +350,10 @@ public class AdminPanelController {
                           RedirectAttributes redirAttrs,
                           Model model) throws IOException {
 
+        try {
+
+
+
         String pictureFromDBName = itemService.getPictureOfItemByID(item_id);
         item.setPictureFileName(pictureFromDBName);
 
@@ -372,6 +386,12 @@ public class AdminPanelController {
 
         redirAttrs.addFlashAttribute("success_message",
                 "Успешно добавили новый предмет: " + savedItem.getName() + "(id=" + savedItem.getId() + ")");
+
+        } catch(Exception e) {
+            redirAttrs.addFlashAttribute("fail_message",
+                    "Что-то пошло не так. " + e.getMessage());
+            return "redirect:/admin/items/" + item_id;
+        }
 
         return "redirect:/admin/items";
     }
@@ -428,14 +448,14 @@ public class AdminPanelController {
 
         if(!picture.isEmpty() && picture.getOriginalFilename() != null) {
             ingredient.setIcon(picture.getOriginalFilename());
-            FileUploadUtil.saveFile(imageUploadDirectory + "ingredients/", picture.getOriginalFilename(), picture);
+            FileUploadUtil.saveFile(imageUploadDirectory + "/ingredients/", picture.getOriginalFilename(), picture);
         }
 
         Ingredient savedIngr = ingredientService.saveIngredientToDB(ingredient);
 
         log.info("Saved edits to ingredient to DB(name="+savedIngr.getName()+", id="+savedIngr.getId()+")");
 
-        return "admin_panel/ingredients";
+        return "redirect:/admin/items/ingredients";
     }
 
     @GetMapping("/items/ingredients/{id}/delete")
@@ -461,8 +481,13 @@ public class AdminPanelController {
 
     @GetMapping("/telegram")
     public String showTelegramPage(Model model) {
-        model.addAttribute("users", userService.getUsersDTO());
+        model.addAttribute("telegram_users", telegramUserRepository.findAll());
         return "admin_panel/telegram";
+    }
+
+    @PostMapping("/telegram")
+    public @ResponseBody String sendTGMessages(@RequestParam String text) {
+        return "Sending text...\n" + text;
     }
 
     @PostMapping("/sms")

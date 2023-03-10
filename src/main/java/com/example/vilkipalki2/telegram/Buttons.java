@@ -29,7 +29,6 @@ public class Buttons {
         Buttons.itemService = itemService;
     }
 
-
     public static InlineKeyboardMarkup inlineMarkup() {
         START_BUTTON.setCallbackData("/start");
         HELP_BUTTON.setCallbackData("/help");
@@ -87,6 +86,13 @@ public class Buttons {
         markupInline.setKeyboard(allRows);
 
         return markupInline;
+    }
+
+    public static InlineKeyboardMarkup yesNoMarkup(){
+        return new InlineKeyboardMarkup(List.of(
+                List.of(InlineKeyboardButton.builder().text("Да").callbackData("/register").build(),
+                        InlineKeyboardButton.builder().text("Нет").callbackData("/start").build())
+        ));
     }
 
     public static InlineKeyboardMarkup createMenu(List<MenuItem> itemListForCategory, String previousCallbackData) {

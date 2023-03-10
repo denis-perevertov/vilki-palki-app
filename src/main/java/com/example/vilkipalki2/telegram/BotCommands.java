@@ -19,6 +19,6 @@ public interface BotCommands {
 
     String HELP_TEXT = "Список команд, которые понимает бот: \n" + LIST_OF_COMMANDS.stream()
             .map((command) -> command.getCommand() + " - " + command.getDescription())
-            .collect(Collectors.joining("\n"));
+            .collect(Collectors.joining("\n")) + "\n\nВ данный момент кнопочные команды на русском не работают из-за проблем с кодировкой";
 
 }

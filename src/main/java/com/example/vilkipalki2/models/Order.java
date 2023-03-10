@@ -3,6 +3,7 @@ package com.example.vilkipalki2.models;
 
 import com.example.vilkipalki2.util.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -41,6 +43,7 @@ public class Order implements Serializable, Cloneable {
             name = "order_items",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JsonIgnore
     private List<MenuItem> itemList;
 
     @Past
@@ -48,6 +51,7 @@ public class Order implements Serializable, Cloneable {
     private LocalDateTime datetime;
 
     @ManyToMany(mappedBy = "orderList")
+    @JsonIgnore
     private List<AppUser> userList;
 
     @Transient
