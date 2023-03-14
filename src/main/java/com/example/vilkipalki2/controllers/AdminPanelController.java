@@ -8,6 +8,7 @@ import com.example.vilkipalki2.services.ItemService;
 import com.example.vilkipalki2.services.OrderService;
 import com.example.vilkipalki2.services.UserService;
 import com.example.vilkipalki2.services.BannerService;
+import com.example.vilkipalki2.telegram.MyBot;
 import com.example.vilkipalki2.util.FileUploadUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,8 @@ public class AdminPanelController {
     private final IngredientService ingredientService;
     private final BannerService bannerService;
     private final TelegramUserRepository telegramUserRepository;
+
+    private final MyBot bot;
 
     public static final String imageUploadDirectory = "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/vilkipalki/WEB-INF/classes/static/images";
 
@@ -487,7 +490,9 @@ public class AdminPanelController {
 
     @PostMapping("/telegram")
     public @ResponseBody String sendTGMessages(@RequestParam String text) {
-        return "Sending text...\n" + text;
+        List<TelegramUser> userList = telegramUserRepository.findAll();
+        userList.forEach(user -> bot.sendMessageFromWebsite(user.getChatId(), text));
+        return "Закончена отправка сообщения: \n" + text;
     }
 
     @PostMapping("/sms")
@@ -506,6 +511,6 @@ public class AdminPanelController {
         log.info(Arrays.toString(ids));
 
         userList.forEach(System.out::println);
-        return "SENT SMS";
+        return "СМС";
     }
 }

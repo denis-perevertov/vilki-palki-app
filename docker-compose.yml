@@ -1,0 +1,26 @@
+services:
+  app:
+    image: tomcat:9.0
+    command: catalina.sh run
+    ports:
+      - 8888:8080
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vilkipalki
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  db-admin:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+

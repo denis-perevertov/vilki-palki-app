@@ -70,11 +70,15 @@
 <script th:src="@{/js/Chart.min.js}"></script>
 <script th:src="@{/js/pages/dashboard3.js}"></script>
 
-<script>
+<script th:inline="javascript">
+
   function sendText() {
-    let text = document.querySelector('#tg_text').value;
-    console.log(text);
-    alert('Отправляем сообщение...\n' + text);
+    let msg = document.querySelector('#tg_text').value;
+    console.log(msg);
+    alert('Отправляем сообщение...\n' + msg);
+
+  $.post("", {text:msg}, function(data){alert(data);});
+
   }
 </script>
 

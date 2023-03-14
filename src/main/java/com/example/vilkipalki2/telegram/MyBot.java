@@ -649,6 +649,18 @@ public class MyBot extends TelegramLongPollingBot {
         }
     }
 
+    public void sendMessageFromWebsite(long chatId, String text) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText(text);
+
+        try {
+            execute(message);
+        } catch (Exception e){
+            log.severe(e.getMessage());
+        }
+    }
+
     @Override
     public String getBotUsername() {
         return config.getBotName();

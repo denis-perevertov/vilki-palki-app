@@ -7,6 +7,7 @@ import com.example.vilkipalki2.models.MenuItem;
 import com.example.vilkipalki2.models.Order;
 import com.example.vilkipalki2.repos.TelegramUserRepository;
 import com.example.vilkipalki2.services.*;
+import com.example.vilkipalki2.telegram.MyBot;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,9 +36,10 @@ public class StatsWebPageTest {
         IngredientService ingredientService = mock(IngredientService.class);
         BannerService bannerService = mock(BannerService.class);
         TelegramUserRepository telegramUserRepository = mock(TelegramUserRepository.class);
+        MyBot botMock = mock(MyBot.class);
 
         AdminPanelController controller = new AdminPanelController(userService,
-                orderService, itemService, ingredientService, bannerService, telegramUserRepository);
+                orderService, itemService, ingredientService, bannerService, telegramUserRepository, botMock);
 
         MockMvc mockMvc = standaloneSetup(controller).build();
 
